@@ -1,0 +1,144 @@
+package cn.jackding.aliststrm;
+
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
+import lombok.extern.slf4j.Slf4j;
+import okhttp3.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
+
+@SpringBootApplication
+@Slf4j
+public class AlistStrmApplication implements CommandLineRunner {
+
+    @Value("${alist.server.path}")
+    private String path;
+
+    @Value("${alist.server.url}")
+    private String url;
+
+    @Value("${alist.server.token}")
+    private String token;
+
+    @Value("${output.dir}")
+    private String outputDir;
+
+
+    public static void main(String[] args) {
+        SpringApplication.run(AlistStrmApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+
+        log.info("开始执行strm任务{}", LocalDateTime.now());
+        try {
+            getData(path);
+        } catch (Exception e) {
+            log.error("", e);
+        } finally {
+            log.info("任务执行完成{}", LocalDateTime.now());
+        }
+
+
+    }
+
+
+    public void getData(String path) throws IOException {
+
+        File outputDirFile = new File(outputDir + File.separator + path.replace("/", File.separator));
+        outputDirFile.mkdirs();
+
+        JSONObject jsonObject = getAlist(path);
+        if (jsonObject != null) {
+            JSONArray jsonArray = jsonObject.getJSONObject("data").getJSONArray("content");
+            if (jsonArray == null) {
+                return;
+            }
+            for (int i = 0; i < jsonArray.size(); i++) {
+                JSONObject object = jsonArray.getJSONObject(i);
+                if (object.getBoolean("is_dir")) {
+                    File file = new File(outputDir + File.separator + path.replace("/", File.separator) + File.separator + object.getString("name"));
+                    file.mkdirs();
+                    getData(path + "/" + object.getString("name"));
+                } else {
+                    //视频文件
+                    if (object.getString("name").toLowerCase().endsWith(".mp4") || object.getString("name").toLowerCase().endsWith(".mkv")
+                            || object.getString("name").toLowerCase().endsWith(".avi") || object.getString("name").toLowerCase().endsWith(".mov")
+                            || object.getString("name").toLowerCase().endsWith(".rmvb") || object.getString("name").toLowerCase().endsWith(".flv")
+                            || object.getString("name").toLowerCase().endsWith(".webm") || object.getString("name").toLowerCase().endsWith(".m3u8")
+                            || object.getString("name").toLowerCase().endsWith(".wmv") || object.getString("name").toLowerCase().endsWith(".iso")
+                    ) {
+                        FileWriter writer = new FileWriter(outputDir + path.replace("/", File.separator) + File.separator + object.getString("name").substring(0, object.getString("name").lastIndexOf(".")).replace("|", "") + ".strm");
+                        writer.write(url + "/d" + path + "/" + object.getString("name"));
+                        writer.close();
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+    public JSONObject getAlist(String path) {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为10秒
+                .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为10秒
+                .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为10秒
+                .build();
+        JSONObject jsonResponse = null;
+
+        // 设置请求头
+        Headers headers = new Headers.Builder()
+                .add("Content-Type", "application/json")
+                .add("Accept", "application/json")
+                .add("Authorization", token)
+                .build();
+
+        // 构建请求体数据
+        JSONObject requestBodyJson = new JSONObject();
+        requestBodyJson.put("path", path);
+        requestBodyJson.put("password", "");
+        requestBodyJson.put("page", 1);
+        requestBodyJson.put("per_page", 0);
+        requestBodyJson.put("refresh", false);
+        String requestBodyString = requestBodyJson.toJSONString();
+
+        // 构建请求
+        Request request = new Request.Builder()
+                .url(url + "/api/fs/list")
+                .headers(headers)
+                .post(RequestBody.create(MediaType.parse("application/json"), requestBodyString))
+                .build();
+
+
+        // 发送请求并处理响应
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                // 获取响应体
+                String responseBody = response.body().string();
+
+                // 解析 JSON 响应
+                jsonResponse = JSONObject.parseObject(responseBody);
+
+                // 处理响应数据
+                log.info("Response Body: " + jsonResponse.toJSONString());
+            } else {
+                log.info("Request failed with code: " + response.code());
+            }
+        } catch (IOException e) {
+            log.error("", e);
+        }
+        return jsonResponse;
+    }
+
+}
