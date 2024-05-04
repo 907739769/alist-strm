@@ -8,4 +8,4 @@ ENV TZ=Asia/Shanghai
 ENV serverUrl=""
 ENV serverToken=""
 ENV scanPath=""
-ENTRYPOINT ["java", "-jar", "--alist.server.url=$serverUrl --alist.server.token=$serverToken --alist.server.path=$scanPath","/application.jar"]
+ENTRYPOINT ["java", "-jar","/application.jar --alist.server.url=$serverUrl --alist.server.token=$serverToken --alist.server.path=$scanPath"]
