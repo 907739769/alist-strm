@@ -3,17 +3,12 @@
 
 ## docker部署 
 
-配置文件`application.properties`放到`/volume1/docker/alist-strm/config/`目录下
 
 ```
-#alist地址 如http://192.168.1.2:5244
-alist.server.url=
-#alist地址 可在alist后台获取
-alist.server.token=
-#需要生成strm文件的目录如http://192.168.1.2:5244/阿里云分享/电影 那就填入/阿里云分享/电影
-alist.server.path=
-#生成strm文件的存放地址
-output.dir=
+部署前参数需要修改
+serverUrl  alist地址 如http://192.168.1.2:5244
+serverToken 可在alist后台获取
+scanPath 需要生成strm文件的目录如http://192.168.1.2:5244/阿里云分享/电影 那就填入/阿里云分享/电影
 ```
 
 docker CLI安装
@@ -22,9 +17,11 @@ docker CLI安装
 docker run -d \
 --name=alist-strm \
 -e TZ=Asia/Shanghai \
+-e serverUrl=http://192.168.1.2:5244 \
+-e serverToken=xxx \
+-e scanPath=/阿里云分享/电影 \
 -v /volume1/docker/alist-strm/config:/config \
 -v /volume1/docker/alist-strm/data:/data \
---restart unless-stopped \
 jacksaoding/alist-strm:latest
 ```
 
@@ -36,11 +33,12 @@ services:
   app:
     container_name: alist-strm
     image: 'jacksaoding/alist-strm:latest'
-    restart: unless-stopped
     network_mode: "host"
     environment:
       TZ: Asia/Shanghai
+      serverUrl: http://192.168.1.2:5244
+      serverToken: xxx
+      scanPath: /阿里云分享/电影
     volumes:
-      - /volume1/docker/alist-strm/config:/config
       - /volume1/docker/alist-strm/data:/data
 ```

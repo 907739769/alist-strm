@@ -3,10 +3,11 @@ services:
   app:
     container_name: alist-strm
     image: 'jacksaoding/alist-strm:latest'
-    restart: unless-stopped
     network_mode: "host"
     environment:
       TZ: Asia/Shanghai
+      serverUrl: http://192.168.1.2:5244
+      serverToken: xxx
+      scanPath: /阿里云分享/电影
     volumes:
-      - /volume1/docker/alist-strm/config:/config
       - /volume1/docker/alist-strm/data:/data
