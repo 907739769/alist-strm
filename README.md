@@ -6,9 +6,9 @@
 
 ```
 部署前参数需要修改
-serverUrl  alist地址 如http://192.168.1.2:5244
-serverToken 可在alist后台获取
-scanPath 需要生成strm文件的目录如http://192.168.1.2:5244/阿里云分享/电影 那就填入/阿里云分享/电影
+alistServerUrl  alist地址 如http://192.168.1.2:5244
+alistServerToken 可在alist后台获取
+alistScanPath 需要生成strm文件的目录如http://192.168.1.2:5244/阿里云分享/电影 那就填入/阿里云分享/电影
 ```
 
 docker CLI安装
@@ -19,7 +19,7 @@ docker run -d \
 -e TZ=Asia/Shanghai \
 -e alistServerUrl=http://192.168.1.2:5244 \
 -e alistServerToken=xxx \
--e alistScanPath=/阿里云分享/电影 \
+-e alistScanPath='/阿里云分享/电影' \
 -v /volume1/docker/alist-strm/data:/data \
 jacksaoding/alist-strm:latest
 ```
