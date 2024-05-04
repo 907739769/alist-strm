@@ -6,6 +6,6 @@ COPY ./target/application.jar /application.jar
 VOLUME /data
 ENV TZ=Asia/Shanghai
 ENV alistServerUrl=""
-ENV serverToken=""
-ENV scanPath=""
+ENV alistServerToken=""
+ENV alistScanPath=""
 ENTRYPOINT ["sh","-c","java -jar /application.jar"]

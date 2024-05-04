@@ -19,13 +19,13 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class AlistStrmApplication implements CommandLineRunner {
 
-    @Value("${alist.server.path}")
+    @Value("${alistScanPath}")
     private String path;
 
     @Value("${alistServerUrl}")
     private String url;
 
-    @Value("${alist.server.token}")
+    @Value("${alistServerToken}")
     private String token;
 
     @Value("${output.dir}")

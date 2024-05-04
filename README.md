@@ -17,10 +17,9 @@ docker CLI安装
 docker run -d \
 --name=alist-strm \
 -e TZ=Asia/Shanghai \
--e serverUrl=http://192.168.1.2:5244 \
--e serverToken=xxx \
--e scanPath=/阿里云分享/电影 \
--v /volume1/docker/alist-strm/config:/config \
+-e alistServerUrl=http://192.168.1.2:5244 \
+-e alistServerToken=xxx \
+-e alistScanPath=/阿里云分享/电影 \
 -v /volume1/docker/alist-strm/data:/data \
 jacksaoding/alist-strm:latest
 ```
@@ -36,9 +35,9 @@ services:
     network_mode: "host"
     environment:
       TZ: Asia/Shanghai
-      serverUrl: http://192.168.1.2:5244
-      serverToken: xxx
-      scanPath: /阿里云分享/电影
+      alistServerUrl: http://192.168.1.2:5244
+      alistServerToken: xxx
+      alistScanPath: /阿里云分享/电影
     volumes:
       - /volume1/docker/alist-strm/data:/data
 ```
