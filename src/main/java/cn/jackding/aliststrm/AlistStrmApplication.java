@@ -22,7 +22,7 @@ public class AlistStrmApplication implements CommandLineRunner {
     @Value("${alist.server.path}")
     private String path;
 
-    @Value("${alist.server.url}")
+    @Value("${alistServerUrl}")
     private String url;
 
     @Value("${alist.server.token}")

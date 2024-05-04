@@ -5,7 +5,7 @@ LABEL authors="JackDing"
 COPY ./target/application.jar /application.jar
 VOLUME /data
 ENV TZ=Asia/Shanghai
-ENV serverUrl=""
+ENV alistServerUrl=""
 ENV serverToken=""
 ENV scanPath=""
 ENTRYPOINT ["sh","-c","java -jar /application.jar"]
