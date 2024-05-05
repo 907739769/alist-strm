@@ -58,12 +58,12 @@ public class AlistStrmApplication implements CommandLineRunner {
         outputDirFile.mkdirs();
 
         JSONObject jsonObject = getAlist(path);
-        if (jsonObject != null) {
+        if (jsonObject != null && 200 == jsonObject.getInteger("code")) {
             JSONArray jsonArray = jsonObject.getJSONObject("data").getJSONArray("content");
             if (jsonArray == null) {
                 return;
             }
-            jsonArray.stream().parallel().forEach(obj->{
+            jsonArray.stream().parallel().forEach(obj -> {
                 JSONObject object = (JSONObject) obj;
                 if (object.getBoolean("is_dir")) {
                     File file = new File(outputDir + File.separator + path.replace("/", File.separator) + File.separator + object.getString("name"));
