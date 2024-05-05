@@ -8,4 +8,4 @@ ENV TZ=Asia/Shanghai
 ENV alistServerUrl=""
 ENV alistServerToken=""
 ENV alistScanPath=""
-ENTRYPOINT ["sh","-c","java -jar /application.jar"]
+ENTRYPOINT ["sh","-c","java -jar -Xms128m -Xmx512m /application.jar"]

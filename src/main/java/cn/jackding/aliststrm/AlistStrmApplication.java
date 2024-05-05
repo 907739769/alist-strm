@@ -52,7 +52,7 @@ public class AlistStrmApplication implements CommandLineRunner {
     }
 
 
-    public void getData(String path) throws IOException {
+    public void getData(String path) {
 
         File outputDirFile = new File(outputDir + File.separator + path.replace("/", File.separator));
         outputDirFile.mkdirs();
@@ -77,9 +77,11 @@ public class AlistStrmApplication implements CommandLineRunner {
                             || object.getString("name").toLowerCase().endsWith(".webm") || object.getString("name").toLowerCase().endsWith(".m3u8")
                             || object.getString("name").toLowerCase().endsWith(".wmv") || object.getString("name").toLowerCase().endsWith(".iso")
                     ) {
-                        FileWriter writer = new FileWriter(outputDir + path.replace("/", File.separator) + File.separator + object.getString("name").substring(0, object.getString("name").lastIndexOf(".")).replace("|", "") + ".strm");
-                        writer.write(url + "/d" + path + "/" + object.getString("name"));
-                        writer.close();
+                        try (FileWriter writer = new FileWriter(outputDir + path.replace("/", File.separator) + File.separator + object.getString("name").substring(0, object.getString("name").lastIndexOf(".")).replace("|", "") + ".strm");) {
+                            writer.write(url + "/d" + path + "/" + object.getString("name"));
+                        } catch (Exception e) {
+                            log.error("", e);
+                        }
                     }
                 }
 
@@ -91,9 +93,9 @@ public class AlistStrmApplication implements CommandLineRunner {
 
     public JSONObject getAlist(String path) {
         OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为10秒
-                .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为10秒
-                .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为10秒
+                .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
+                .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
+                .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
                 .build();
         JSONObject jsonResponse = null;
 
