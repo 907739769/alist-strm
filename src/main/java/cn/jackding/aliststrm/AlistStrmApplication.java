@@ -121,24 +121,38 @@ public class AlistStrmApplication implements CommandLineRunner {
                 .post(RequestBody.create(MediaType.parse("application/json"), requestBodyString))
                 .build();
 
+        log.info("开始获取{}", path);
+        for (int i = 0; i < 3; i++) {
+            // 发送请求并处理响应
+            try (Response response = client.newCall(request).execute()) {
+                if (response.isSuccessful()) {
+                    // 获取响应体
+                    String responseBody = response.body().string();
 
-        // 发送请求并处理响应
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful()) {
-                // 获取响应体
-                String responseBody = response.body().string();
+                    // 解析 JSON 响应
+                    jsonResponse = JSONObject.parseObject(responseBody);
 
-                // 解析 JSON 响应
-                jsonResponse = JSONObject.parseObject(responseBody);
+                    // 处理响应数据
+                    log.info("Response Body: " + jsonResponse.toJSONString());
+                    if (200 == jsonResponse.getInteger("code")) {
+                        return jsonResponse;
+                    } else {
+                        log.error("获取{}第{}次失败", path, i + 1);
+                        TimeUnit.SECONDS.sleep(1);
+                    }
 
-                // 处理响应数据
-                log.info("Response Body: " + jsonResponse.toJSONString());
-            } else {
-                log.info("Request failed with code: " + response.code());
+                } else {
+                    log.info("Request failed with code: " + response.code());
+                    return jsonResponse;
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } catch (Exception e) {
+                log.info("获取失败{}", path);
+                log.error("", e);
             }
-        } catch (IOException e) {
-            log.error("", e);
         }
+        log.info("获取完成{}", path);
         return jsonResponse;
     }
 
