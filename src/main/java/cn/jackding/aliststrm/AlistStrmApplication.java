@@ -76,7 +76,8 @@ public class AlistStrmApplication implements CommandLineRunner {
                             || object.getString("name").toLowerCase().endsWith(".webm") || object.getString("name").toLowerCase().endsWith(".m3u8")
                             || object.getString("name").toLowerCase().endsWith(".wmv") || object.getString("name").toLowerCase().endsWith(".iso")
                     ) {
-                        try (FileWriter writer = new FileWriter(outputDir + path.replace("/", File.separator) + File.separator + object.getString("name").substring(0, object.getString("name").lastIndexOf(".")).replaceAll("[\\\\/:*?\"<>|]", "").substring(0, 60) + ".strm");) {
+                        String fileName = object.getString("name").substring(0, object.getString("name").lastIndexOf(".")).replaceAll("[\\\\/:*?\"<>|]", "");
+                        try (FileWriter writer = new FileWriter(outputDir + path.replace("/", File.separator) + File.separator + (fileName.length() > 62 ? fileName.substring(0, 60) : fileName) + ".strm")) {
                             writer.write(url + "/d" + path + "/" + object.getString("name"));
                         } catch (Exception e) {
                             log.error("", e);
