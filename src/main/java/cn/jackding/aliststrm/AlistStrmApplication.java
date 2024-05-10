@@ -135,6 +135,7 @@ public class AlistStrmApplication implements CommandLineRunner {
                     // 处理响应数据
                     log.info("Response Body: " + jsonResponse.toJSONString());
                     if (200 == jsonResponse.getInteger("code")) {
+                        log.info("获取完成{}", path);
                         return jsonResponse;
                     } else {
                         log.error("获取{}第{}次失败", path, i + 1);
@@ -152,7 +153,6 @@ public class AlistStrmApplication implements CommandLineRunner {
                 log.error("", e);
             }
         }
-        log.info("获取完成{}", path);
         return jsonResponse;
     }
 
