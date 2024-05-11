@@ -133,11 +133,11 @@ public class AlistStrmApplication implements CommandLineRunner {
                     jsonResponse = JSONObject.parseObject(responseBody);
 
                     // 处理响应数据
-                    log.info("Response Body: " + jsonResponse.toJSONString());
                     if (200 == jsonResponse.getInteger("code")) {
                         log.info("获取完成{}", path);
                         return jsonResponse;
                     } else {
+                        log.info("Response Body: " + jsonResponse.toJSONString());
                         log.error("获取{}第{}次失败", path, i + 1);
                         TimeUnit.SECONDS.sleep(1);
                     }
