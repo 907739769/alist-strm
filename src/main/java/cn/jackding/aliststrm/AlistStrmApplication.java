@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 @SpringBootApplication
 @Slf4j
@@ -26,6 +27,9 @@ public class AlistStrmApplication implements CommandLineRunner {
 
     @Value("${alistServerToken}")
     private String token;
+
+    @Value("${slowMode:0}")
+    private String slowMode;
 
     @Value("${output.dir}")
     private String outputDir;
@@ -62,7 +66,20 @@ public class AlistStrmApplication implements CommandLineRunner {
             if (jsonArray == null) {
                 return;
             }
-            jsonArray.stream().parallel().forEach(obj -> {
+            //判断是不是用多线程流
+            Stream<Object> stream;
+            if ("1".equals(slowMode)) {
+                stream = jsonArray.stream().sequential();
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (Exception e) {
+                    log.error("", e);
+                }
+            } else {
+                stream = jsonArray.stream().parallel();
+            }
+
+            stream.forEach(obj -> {
                 JSONObject object = (JSONObject) obj;
                 if (object.getBoolean("is_dir")) {
                     File file = new File(outputDir + File.separator + path.replace("/", File.separator) + File.separator + object.getString("name"));

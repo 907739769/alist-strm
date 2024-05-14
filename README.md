@@ -9,6 +9,7 @@
 alistServerUrl  alist地址 如http://192.168.1.2:5244
 alistServerToken 可在alist后台获取
 alistScanPath 需要生成strm文件的目录如http://192.168.1.2:5244/阿里云分享/电影 那就填入/阿里云分享/电影
+slowMode  单线程模式，防止请求网盘太快，默认0，启用填1
 ```
 
 docker CLI安装
@@ -20,6 +21,7 @@ docker run -d \
 -e alistServerUrl=http://192.168.1.2:5244 \
 -e alistServerToken=xxx \
 -e alistScanPath='/阿里云分享/电影' \
+-e slowMode=0 \
 -v /volume1/docker/alist-strm/data:/data \
 jacksaoding/alist-strm:latest
 ```
@@ -38,6 +40,7 @@ services:
       alistServerUrl: http://192.168.1.2:5244
       alistServerToken: xxx
       alistScanPath: /阿里云分享/电影
+      slowMode: 0
     volumes:
       - /volume1/docker/alist-strm/data:/data
 ```

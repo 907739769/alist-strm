@@ -8,4 +8,5 @@ ENV TZ=Asia/Shanghai
 ENV alistServerUrl=""
 ENV alistServerToken=""
 ENV alistScanPath=""
+ENV slowMode=""
 ENTRYPOINT ["sh","-c","java -jar -Xms128m -Xmx512m /application.jar"]
