@@ -9,4 +9,4 @@ ENV alistServerUrl=""
 ENV alistServerToken=""
 ENV alistScanPath=""
 ENV slowMode=""
-ENTRYPOINT ["sh","-c","java -jar -Xms128m -Xmx512m /application.jar"]
+ENTRYPOINT ["sh","-c","java -jar -Xms128m -Xmx1024m /application.jar"]
