@@ -44,7 +44,7 @@ public class AlistStrmApplication implements CommandLineRunner {
 
         log.info("开始执行strm任务{}", LocalDateTime.now());
         try {
-            getData(path);
+            getData(path, outputDir + File.separator + path.replace("/", File.separator));
         } catch (Exception e) {
             log.error("", e);
         } finally {
@@ -55,9 +55,9 @@ public class AlistStrmApplication implements CommandLineRunner {
     }
 
 
-    public void getData(String path) {
+    public void getData(String path, String localPath) {
 
-        File outputDirFile = new File(outputDir + File.separator + path.replace("/", File.separator));
+        File outputDirFile = new File(localPath);
         outputDirFile.mkdirs();
 
         JSONObject jsonObject = getAlist(path);
@@ -83,9 +83,10 @@ public class AlistStrmApplication implements CommandLineRunner {
             stream.forEach(obj -> {
                 JSONObject object = (JSONObject) obj;
                 if (object.getBoolean("is_dir")) {
-                    File file = new File(outputDir + File.separator + path.replace("/", File.separator) + File.separator + object.getString("name"));
+                    String newLocalPath = localPath + File.separator + (object.getString("name").length() > 100 ? object.getString("name").substring(0, 20) : object.getString("name"));
+                    File file = new File(newLocalPath);
                     file.mkdirs();
-                    getData(path + "/" + object.getString("name"));
+                    getData(path + "/" + object.getString("name"), newLocalPath);
                 } else {
                     //视频文件
                     if (object.getString("name").toLowerCase().endsWith(".mp4") || object.getString("name").toLowerCase().endsWith(".mkv")
@@ -95,7 +96,7 @@ public class AlistStrmApplication implements CommandLineRunner {
                             || object.getString("name").toLowerCase().endsWith(".wmv") || object.getString("name").toLowerCase().endsWith(".iso")
                     ) {
                         String fileName = object.getString("name").substring(0, object.getString("name").lastIndexOf(".")).replaceAll("[\\\\/:*?\"<>|]", "");
-                        try (FileWriter writer = new FileWriter(outputDir + path.replace("/", File.separator) + File.separator + (fileName.length() > 62 ? fileName.substring(0, 60) : fileName) + ".strm")) {
+                        try (FileWriter writer = new FileWriter(localPath + File.separator + (fileName.length() > 62 ? fileName.substring(0, 60) : fileName) + ".strm")) {
                             writer.write(url + "/d" + path + "/" + object.getString("name"));
                         } catch (Exception e) {
                             log.error("", e);
