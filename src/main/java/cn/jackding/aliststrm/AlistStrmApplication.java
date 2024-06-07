@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
@@ -97,7 +98,8 @@ public class AlistStrmApplication implements CommandLineRunner {
                     ) {
                         String fileName = object.getString("name").substring(0, object.getString("name").lastIndexOf(".")).replaceAll("[\\\\/:*?\"<>|]", "");
                         try (FileWriter writer = new FileWriter(localPath + File.separator + (fileName.length() > 62 ? fileName.substring(0, 60) : fileName) + ".strm")) {
-                            writer.write(url + "/d" + path + "/" + object.getString("name"));
+                            String encodePath = URLEncoder.encode(path + "/" + object.getString("name"), "UTF-8").replace("+", "%20").replace("%2F", "/");
+                            writer.write(url + "/d" + encodePath);
                         } catch (Exception e) {
                             log.error("", e);
                         }
