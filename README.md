@@ -12,7 +12,12 @@ alistScanPath 需要生成strm文件的目录如http://192.168.1.2:5244/阿里�
 slowMode  单线程模式，防止请求网盘太快，默认0，启用填1
 ```
 
-docker CLI安装
+# 开发计划
+
+- [ ] tg机器人命令生成strm文件
+- [ ] ...
+
+# docker CLI安装
 
 ```
 docker run -d \
@@ -26,7 +31,7 @@ docker run -d \
 jacksaoding/alist-strm:latest
 ```
 
-docker compose安装
+# docker compose安装
 
 ```
 version: "3"
