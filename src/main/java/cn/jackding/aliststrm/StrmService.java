@@ -143,7 +143,7 @@ public class StrmService {
         requestBodyJson.put("password", "");
         requestBodyJson.put("page", 1);
         requestBodyJson.put("per_page", 0);
-        requestBodyJson.put("refresh", false);
+        requestBodyJson.put("refresh", true);
         String requestBodyString = requestBodyJson.toJSONString();
 
         // 构建请求
