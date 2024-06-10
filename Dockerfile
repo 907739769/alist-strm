@@ -9,4 +9,7 @@ ENV alistServerUrl=""
 ENV alistServerToken=""
 ENV alistScanPath=""
 ENV slowMode=""
+ENV encode="1"
+ENV tgToken=""
+ENV tgUserId=""
 ENTRYPOINT ["sh","-c","java -jar -Xms128m -Xmx1024m /application.jar"]

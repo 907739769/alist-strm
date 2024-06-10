@@ -10,12 +10,19 @@ alistServerUrl  alist地址 如http://192.168.1.2:5244
 alistServerToken 可在alist后台获取
 alistScanPath 需要生成strm文件的目录如http://192.168.1.2:5244/阿里云分享/电影 那就填入/阿里云分享/电影
 slowMode  单线程模式，防止请求网盘太快，默认0，启用填1
+encode 是否编码strm文件里面的链接  默认1启用  不启用填0
+tgToken  tg机器人token，通过t.me/BotFather机器人创建bot获取token
+tgUserId tg用户id，通过t.me/userinfobot机器人获取userId
 ```
 
 # 开发计划
 
-- [ ] tg机器人命令生成strm文件
+- [x] tg机器人命令生成strm文件
 - [ ] ...
+
+# 更新记录
+
+20240610 重构代码,增加tg机器人命令strm、strmdir
 
 # docker CLI安装
 

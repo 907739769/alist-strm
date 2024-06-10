@@ -1,0 +1,114 @@
+[2024-06-10 20:30:15:190] Starting AlistStrmApplication using Java 1.8.0_311 on Jacskao-Win11 with PID 100524 (D:\idea project\alist-strm\target\classes started by 90773 in D:\idea project\alist-strm)
+[2024-06-10 20:30:15:192] No active profile set, falling back to 1 default profile: "default"
+[2024-06-10 20:30:15:584] Started AlistStrmApplication in 0.658 seconds (JVM running for 1.908)
+[2024-06-10 20:30:16:386] No post action was detected for method with name [commands]
+[2024-06-10 20:30:16:388] No post action was detected for method with name [stats]
+[2024-06-10 20:30:16:388] No post action was detected for method with name [backup]
+[2024-06-10 20:30:16:394] No post action was detected for method with name [recover]
+[2024-06-10 20:30:16:395] No post action was detected for method with name [report]
+[2024-06-10 20:30:16:395] No post action was detected for method with name [ban]
+[2024-06-10 20:30:16:395] No post action was detected for method with name [unban]
+[2024-06-10 20:30:16:396] No post action was detected for method with name [promote]
+[2024-06-10 20:30:16:396] No post action was detected for method with name [claim]
+[2024-06-10 20:30:16:396] No post action was detected for method with name [demote]
+[2024-06-10 20:30:16:396] No post action was detected for method with name [strmdir]
+[2024-06-10 20:30:16:396] No post action was detected for method with name [strm]
+[2024-06-10 20:30:18:147] 开始执行strm任务2024-06-10T20:30:18.146
+[2024-06-10 20:30:18:247] 开始获取/每日更新
+[2024-06-10 20:30:18:272] 获取完成/每日更新
+[2024-06-10 20:30:19:274] 开始获取/每日更新/电影
+[2024-06-10 20:30:19:277] 获取完成/每日更新/电影
+[2024-06-10 20:30:20:292] 开始获取/每日更新/电影/老狐狸
+[2024-06-10 20:30:20:380] 获取完成/每日更新/电影/老狐狸
+[2024-06-10 20:30:21:390] 开始获取/每日更新/电视剧
+[2024-06-10 20:30:21:471] 获取完成/每日更新/电视剧
+[2024-06-10 20:30:21:471] 任务执行完成2024-06-10T20:30:21.471
+[2024-06-10 20:30:23:501] Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:53) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:38) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:260) ~[telegrambots-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:189) ~[telegrambots-6.1.0.jar:?]
+[2024-06-10 20:30:28:100] Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:53) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:38) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:260) ~[telegrambots-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:189) ~[telegrambots-6.1.0.jar:?]
+[2024-06-10 20:30:32:694] Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:53) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:38) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:260) ~[telegrambots-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:189) ~[telegrambots-6.1.0.jar:?]
+[2024-06-10 20:30:37:289] Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:53) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:38) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:260) ~[telegrambots-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:189) ~[telegrambots-6.1.0.jar:?]
+[2024-06-10 20:30:41:888] Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:53) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:38) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:260) ~[telegrambots-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:189) ~[telegrambots-6.1.0.jar:?]
+[2024-06-10 20:30:46:494] Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:53) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:38) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:260) ~[telegrambots-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:189) ~[telegrambots-6.1.0.jar:?]
+[2024-06-10 20:30:51:097] Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:53) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:38) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:260) ~[telegrambots-6.1.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:189) ~[telegrambots-6.1.0.jar:?]
+[2024-06-10 20:32:50:053] Starting AlistStrmApplication using Java 1.8.0_311 on Jacskao-Win11 with PID 116800 (D:\idea project\alist-strm\target\classes started by 90773 in D:\idea project\alist-strm)
+[2024-06-10 20:32:50:055] No active profile set, falling back to 1 default profile: "default"
+[2024-06-10 20:32:50:401] Started AlistStrmApplication in 0.582 seconds (JVM running for 1.706)
+[2024-06-10 20:32:51:128] No post action was detected for method with name [recover]
+[2024-06-10 20:32:51:129] No post action was detected for method with name [stats]
+[2024-06-10 20:32:51:129] No post action was detected for method with name [ban]
+[2024-06-10 20:32:51:130] No post action was detected for method with name [unban]
+[2024-06-10 20:32:51:130] No post action was detected for method with name [promote]
+[2024-06-10 20:32:51:130] No post action was detected for method with name [claim]
+[2024-06-10 20:32:51:130] No post action was detected for method with name [report]
+[2024-06-10 20:32:51:130] No post action was detected for method with name [backup]
+[2024-06-10 20:32:51:131] No post action was detected for method with name [demote]
+[2024-06-10 20:32:51:131] No post action was detected for method with name [commands]
+[2024-06-10 20:32:51:131] No post action was detected for method with name [strm]
+[2024-06-10 20:32:51:131] No post action was detected for method with name [strmdir]
+[2024-06-10 20:32:52:802] 开始执行strm任务2024-06-10T20:32:52.800
+[2024-06-10 20:32:52:884] 开始获取/每日更新
+[2024-06-10 20:32:52:907] 获取完成/每日更新
+[2024-06-10 20:32:53:917] 开始获取/每日更新/电影
+[2024-06-10 20:32:53:920] 获取完成/每日更新/电影
+[2024-06-10 20:32:54:935] 开始获取/每日更新/电影/老狐狸
+[2024-06-10 20:32:54:938] 获取完成/每日更新/电影/老狐狸
+[2024-06-10 20:32:55:949] 开始获取/每日更新/电视剧
+[2024-06-10 20:32:56:161] 获取完成/每日更新/电视剧
+[2024-06-10 20:32:56:162] 任务执行完成2024-06-10T20:32:56.162
+[2024-06-10 20:33:16:490] [bot] New update [212303506] received at 2024-06-10T20:33:16.490+08:00[Asia/Shanghai]
+[2024-06-10 20:33:16:491] Update(updateId=212303506, message=Message(messageId=2410, from=User(id=5173469146, firstName=Jacksao, isBot=false, lastName=Ding, userName=JacksaoDing, languageCode=zh-hans, canJoinGroups=null, canReadAllGroupMessages=null, supportInlineQueries=null, isPremium=null, addedToAttachmentMenu=null), date=1718022795, chat=Chat(id=5173469146, type=private, title=null, firstName=Jacksao, lastName=Ding, userName=JacksaoDing, photo=null, description=null, inviteLink=null, pinnedMessage=null, stickerSetName=null, canSetStickerSet=null, permissions=null, slowModeDelay=null, bio=null, linkedChatId=null, location=null, messageAutoDeleteTime=null, hasPrivateForwards=null, HasProtectedContent=null, joinToSendMessages=null, joinByRequest=null), forwardFrom=null, forwardFromChat=null, forwardDate=null, text=/strm, entities=[MessageEntity(type=bot_command, offset=0, length=5, url=null, user=null, language=null, text=/strm)], captionEntities=null, audio=null, document=null, photo=null, sticker=null, video=null, contact=null, location=null, venue=null, animation=null, pinnedMessage=null, newChatMembers=[], leftChatMember=null, newChatTitle=null, newChatPhoto=null, deleteChatPhoto=null, groupchatCreated=null, replyToMessage=null, voice=null, caption=null, superGroupCreated=null, channelChatCreated=null, migrateToChatId=null, migrateFromChatId=null, editDate=null, game=null, forwardFromMessageId=null, invoice=null, successfulPayment=null, videoNote=null, authorSignature=null, forwardSignature=null, mediaGroupId=null, connectedWebsite=null, passportData=null, forwardSenderName=null, poll=null, replyMarkup=null, dice=null, viaBot=null, senderChat=null, proximityAlertTriggered=null, messageAutoDeleteTimerChanged=null, isAutomaticForward=null, hasProtectedContent=null, webAppData=null, videoChatStarted=null, videoChatEnded=null, videoChatParticipantsInvited=null, videoChatScheduled=null), inlineQuery=null, chosenInlineQuery=null, callbackQuery=null, editedMessage=null, channelPost=null, editedChannelPost=null, shippingQuery=null, preCheckoutQuery=null, poll=null, pollAnswer=null, myChatMember=null, chatMember=null, chatJoinRequest=null)
+[2024-06-10 20:33:17:135] 开始执行strm任务2024-06-10T20:33:17.135
+[2024-06-10 20:33:17:135] 开始获取/每日更新
+[2024-06-10 20:33:17:140] 获取完成/每日更新
+[2024-06-10 20:33:18:150] 开始获取/每日更新/电影
+[2024-06-10 20:33:18:154] 获取完成/每日更新/电影
+[2024-06-10 20:33:19:167] 开始获取/每日更新/电影/老狐狸
+[2024-06-10 20:33:19:172] 获取完成/每日更新/电影/老狐狸
+[2024-06-10 20:33:20:183] 开始获取/每日更新/电视剧
+[2024-06-10 20:33:20:251] 获取完成/每日更新/电视剧
+[2024-06-10 20:33:20:251] 任务执行完成2024-06-10T20:33:20.251
+[2024-06-10 20:33:20:258] [bot] Processing of update [212303506] ended at 2024-06-10T20:33:20.258+08:00[Asia/Shanghai]
+---> Processing time: [3767 ms] <---
+

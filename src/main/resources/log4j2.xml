@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<!--status="WARN": status用来指定log4j本身的打印日志的级别.默认是OFF -->
+<!--monitorInterval="30": 间隔秒数,自动检测配置文件的变更和重新配置本身(如果跟踪线上异常信息可以把配置文件修改后不需重启服务，日志就会按照新的配置输出) -->
+<configuration status="INFO">
+
+    <properties>
+        <!--自定义一些常量，之后使用${变量名}引用-->
+        <!-- 配置日志文件输出目录 -->
+        <Property name="log_dir">log</Property>
+<!--        <Property name="log_pattern">[%d{yyyy-MM-dd HH:mm:ss:SSS}][%-5level][%.5thread][%logger{0}.%method:%line] %msg%n</Property>-->
+        <Property name="log_pattern">[%d{yyyy-MM-dd HH:mm:ss:SSS}] %msg%n</Property>
+    </properties>
+
+    <!--Appenders: 定义输出内容,输出格式,输出方式,日志保存策略等,常用其下三种标签[console,File,RollingFile]-->
+    <Appenders>
+
+        <!--Console :控制台输出的配置-->
+        <Console name="CONSOLE" target="SYSTEM_OUT" follow="true">
+            <!-- %d 当前时间 -->
+            <!-- %level 日志级别 -5表示占5个字符并且左对齐 -->
+            <!-- %t或%thread 线程名 -->
+            <!-- %c logger名称，由LoggerFactory.getLogger()方法传入 -->
+            <!-- %L 输出错误行号 -->
+            <!-- %M或%method 输出方法名 -->
+            <!-- %n换行符 -->
+
+            <!-- %l (小写l字母)输出日志事件发生位置，包括类目名、在代码中的行数 -->
+            <!-- %m或%msg或%message 输出信息logger.error(String msg)、logger.info(“message”)等转入的message -->
+            <!-- %C或%class 输出类名 -->
+            <PatternLayout pattern="${log_pattern}"/>
+        </Console>
+
+        <!-- RollingFile节点用来定义超过指定大小自动删除旧的创建新的的Appender，对日志文件进行封存,对日志滚动存档 -->
+        <RollingFile name="ROLLING_FILE" fileName="${log_dir}/strm.log"
+                     filePattern="${log_dir}/%d{yyyy-MM-dd}/strm.%i.log"
+                     immediateFlush="false">
+            <Filters>
+                <!--控制台只输出level及以上级别的信息（onMatch）Match：匹配 DENY：拒绝 Mismatch：不匹配 ACCEPT：接受 -->
+                <ThresholdFilter level="INFO" onMatch="ACCEPT"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}"/>
+
+            <!-- Policies :日志滚动存档的策略-->
+            <Policies>
+                <!-- TimeBasedTriggeringPolicy :时间滚动策略,默认0点小时产生新的文件,interval="1":自定义文件滚动时间间隔,1的单位以filePattern的时间为单位，本例为1天，如果filePattern的时间参数精确到-H，则以小时为单位 -->
+                <!-- modulate若为true，则日志时间将以0点为边界进行偏移计算; 每间隔interval(与filepattern滚动日期单位一致)发生一次rollover，得到一个log.tar.gz文件-->
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <!-- 日志文件达到多少的时候进行滚动 -->
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+            <!-- 保留两天日志文件-->
+            <DefaultRolloverStrategy  max="10">
+                <Delete basePath="${log_dir}" maxDepth="2">
+                    <IfFileName glob="*/strm*.log" />
+                    <IfLastModified age="2d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <AsyncRoot level="INFO" includeLocation="true">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="ROLLING_FILE" />
+        </AsyncRoot>
+
+        <AsyncLogger name="cn.jackding" level="debug" additivity="false">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="ROLLING_FILE" />
+        </AsyncLogger>
+
+    </Loggers>
+
+</configuration>
