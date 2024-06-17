@@ -126,7 +126,7 @@ public class StrmService {
                     if ("1".equals(isDownSub) && (name.toLowerCase().endsWith(".ass") || name.toLowerCase().endsWith(".srt"))) {
                         String url = getFile(path + "/" + name);
                         String fileName = name.replaceAll("[\\\\/:*?\"<>|]", "");
-                        downloadFile(url, localPath + File.separator + (fileName.length() > 62 ? fileName.substring(0, 60) : fileName));
+                        downloadFile(url, localPath + File.separator + (fileName.length() > 62 ? fileName.substring(0, 60) : fileName)+name.substring(name.lastIndexOf(".")));
                     }
                 }
             });
