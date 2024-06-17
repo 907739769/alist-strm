@@ -15,12 +15,12 @@ public class Config {
 
     public static String tgUserId;
 
-    @Value("${tgToken}")
+    @Value("${tgToken:}")
     public void setTgToken(String tgToken) {
         Config.tgToken = tgToken;
     }
 
-    @Value("${tgUserId}")
+    @Value("${tgUserId:}")
     public void setTgUserId(String tgUserId) {
         Config.tgUserId = tgUserId;
     }

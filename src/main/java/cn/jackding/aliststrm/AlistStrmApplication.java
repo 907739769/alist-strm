@@ -25,6 +25,7 @@ public class AlistStrmApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        strmService.strm();
         if (StringUtils.isBlank(Config.tgUserId) || StringUtils.isBlank(Config.tgToken)) {
             return;
         }
@@ -45,7 +46,6 @@ public class AlistStrmApplication implements CommandLineRunner {
         } catch (TelegramApiException e) {
             log.error("", e);
         }
-        strmService.strm();
     }
 
 
