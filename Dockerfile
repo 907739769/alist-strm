@@ -9,6 +9,7 @@ ENV TZ=Asia/Shanghai
 ENV alistServerUrl=""
 ENV alistServerToken=""
 ENV alistScanPath=""
+ENV isDownSub="0"
 ENV slowMode=""
 ENV encode="1"
 ENV tgToken=""

@@ -15,6 +15,7 @@ slowMode  单线程模式，防止请求网盘太快，默认0，启用填1
 encode 是否编码strm文件里面的链接  默认1启用  不启用填0
 tgToken  tg机器人token，通过t.me/BotFather机器人创建bot获取token
 tgUserId tg用户id，通过t.me/userinfobot机器人获取userId
+isDownSub 是否下载目录里面的字幕文件 默认0不下载  下载填1
 ```
 
 # 开发计划
@@ -25,6 +26,7 @@ tgUserId tg用户id，通过t.me/userinfobot机器人获取userId
 # 更新记录
 
 20240610 重构代码,增加tg机器人命令strm、strmdir
+20240617 增加下载目录中字幕文件的功能
 
 # docker CLI安装
 
