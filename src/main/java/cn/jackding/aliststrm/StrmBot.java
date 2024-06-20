@@ -4,10 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.telegram.abilitybots.api.bot.AbilityBot;
 import org.telegram.abilitybots.api.objects.Ability;
+import org.telegram.abilitybots.api.objects.Flag;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 
 import static org.telegram.abilitybots.api.objects.Locality.USER;
 import static org.telegram.abilitybots.api.objects.Privacy.CREATOR;
+import static org.telegram.abilitybots.api.util.AbilityUtils.getChatId;
 
 /**
  * @Author Jack
@@ -17,6 +19,7 @@ import static org.telegram.abilitybots.api.objects.Privacy.CREATOR;
 @Slf4j
 public class StrmBot extends AbilityBot {
 
+    private final ResponseHandler responseHandler = new ResponseHandler(sender, db);
 
     public StrmBot() {
         super(Config.tgToken, "");
@@ -59,12 +62,11 @@ public class StrmBot extends AbilityBot {
                     try {
                         parameter = ctx.firstArg();
                     } catch (Exception e) {
-                        silent.send("请加上路径参数", ctx.chatId());
-                        log.error("", e);
+                        silent.forceReply("请输入路径", ctx.chatId());
                         return;
                     }
                     if (StringUtils.isBlank(parameter)) {
-                        silent.send("请加上路径参数", ctx.chatId());
+                        silent.forceReply("请输入路径", ctx.chatId());
                         return;
                     }
                     silent.send("==开始执行指定路径strm任务==", ctx.chatId());
@@ -72,6 +74,9 @@ public class StrmBot extends AbilityBot {
                     strmService.strmDir(parameter);
                     silent.send("==执行指定路径strm任务完成==", ctx.chatId());
                 })
+                .reply((bot, upd) -> responseHandler.replyToStrmDdir(getChatId(upd), upd.getMessage().getText(), upd.getMessage().getMessageId()), Flag.REPLY,//回复
+                        upd -> upd.getMessage().getReplyToMessage().hasText(), upd -> upd.getMessage().getReplyToMessage().getText().equals("请输入路径")//回复的是上面的问题
+                )
                 .build();
     }
 
