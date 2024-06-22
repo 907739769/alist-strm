@@ -3,6 +3,7 @@ package cn.jackding.aliststrm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,6 +19,9 @@ public class AlistStrmApplication implements CommandLineRunner {
     @Autowired
     private StrmService strmService;
 
+    @Value("${runAfterStartup:1}")
+    private String runAfterStartup;
+
 
     public static void main(String[] args) {
         SpringApplication.run(AlistStrmApplication.class, args);
@@ -25,7 +29,9 @@ public class AlistStrmApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        strmService.strm();
+        if ("1".equals(runAfterStartup)) {
+            strmService.strm();
+        }
         if (StringUtils.isBlank(Config.tgUserId) || StringUtils.isBlank(Config.tgToken)) {
             return;
         }

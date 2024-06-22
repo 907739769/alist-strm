@@ -16,6 +16,12 @@ encode 是否编码strm文件里面的链接  默认1启用  不启用填0
 tgToken  tg机器人token，通过t.me/BotFather机器人创建bot获取token
 tgUserId tg用户id，通过t.me/userinfobot机器人获取userId
 isDownSub 是否下载目录里面的字幕文件 默认0不下载  下载填1
+runAfterStartup  启动是否立即执行同步任务 默认启用1，启用填0
+
+复制alist不同目录的视频 源目录删除不会删除目标目录文件 只会新增
+srcDir 源目录
+dstDir 目标目录
+
 ```
 
 # 开发计划
@@ -27,6 +33,7 @@ isDownSub 是否下载目录里面的字幕文件 默认0不下载  下载填1
 
 20240610 重构代码,增加tg机器人命令strm、strmdir
 20240617 增加下载目录中字幕文件的功能
+20240617 增加alist目录复制的功能 使用tg机器人/sync命令执行任务
 
 # docker CLI安装
 

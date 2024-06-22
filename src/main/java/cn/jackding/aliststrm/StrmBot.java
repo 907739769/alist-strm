@@ -80,4 +80,20 @@ public class StrmBot extends AbilityBot {
                 .build();
     }
 
+    public Ability sync() {
+        return Ability.builder()
+                .name("sync")
+                .info("同步alist")
+                .privacy(CREATOR)
+                .locality(USER)
+                .input(0)
+                .action(ctx -> {
+                    silent.send("==开始执行同步alist任务==", ctx.chatId());
+                    CopyAlistFileService copyAlistFileService = (CopyAlistFileService) SpringContextUtil.getBean("copyAlistFileService");
+                    copyAlistFileService.syncFiles("");
+                    silent.send("==执行同步alist任务完成==", ctx.chatId());
+                })
+                .build();
+    }
+
 }
