@@ -1,4 +1,4 @@
-package cn.jackding.aliststrm;
+package cn.jackding.aliststrm.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

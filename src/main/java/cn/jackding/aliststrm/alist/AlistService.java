@@ -24,12 +24,13 @@ public class AlistService {
     @Value("${alistServerUrl}")
     private String url;
 
+    private final OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
+            .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
+            .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
+            .build();
+
     public JSONObject getAlist(String path) {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
-                .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
-                .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
-                .build();
         JSONObject jsonResponse = null;
 
         // 设置请求头
@@ -91,11 +92,6 @@ public class AlistService {
     }
 
     public JSONObject getFile(String path) {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
-                .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
-                .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
-                .build();
         JSONObject jsonResponse;
 
         // 设置请求头
@@ -151,11 +147,6 @@ public class AlistService {
 
 
     public JSONObject copyAlist(String srcDir, String dstDir, List<String> names) {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
-                .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
-                .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
-                .build();
         JSONObject jsonResponse = null;
 
         // 设置请求头
@@ -216,11 +207,6 @@ public class AlistService {
 
 
     public JSONObject mkdir(String path) {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
-                .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
-                .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
-                .build();
         JSONObject jsonResponse;
 
         // 设置请求头
@@ -267,6 +253,47 @@ public class AlistService {
             log.error("", e);
         }
 
+        return null;
+    }
+
+    /**
+     * 获取未完成的复制任务
+     *
+     * @return
+     */
+    public JSONObject copyUndone() {
+        JSONObject jsonResponse;
+
+        // 设置请求头
+        Headers headers = new Headers.Builder()
+                .add("Content-Type", "application/json")
+                .add("Accept", "application/json")
+                .add("Authorization", token)
+                .build();
+
+        // 构建请求
+        Request request = new Request.Builder()
+                .url(url + "/api/fs/mkdir")
+                .headers(headers)
+                .get()
+                .build();
+
+        // 发送请求并处理响应
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                // 获取响应体
+                String responseBody = response.body().string();
+
+                // 解析 JSON 响应
+                jsonResponse = JSONObject.parseObject(responseBody);
+                return jsonResponse;
+            } else {
+                log.info("Request failed with code: " + response.code());
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("", e);
+        }
         return null;
     }
 

@@ -1,4 +1,4 @@
-package cn.jackding.aliststrm;
+package cn.jackding.aliststrm.service;
 
 import cn.jackding.aliststrm.alist.AlistService;
 import cn.jackding.aliststrm.util.Utils;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 复制alist文件
@@ -31,7 +32,11 @@ public class CopyAlistFileService {
     @Autowired
     private AlistService alistService;
 
+    @Autowired
+    private AsynService asynService;
+
     public void syncFiles(String relativePath) {
+        AtomicBoolean flag = new AtomicBoolean(false);
         //查出所有源目录
         JSONObject object = alistService.getAlist(srcDir + relativePath);
         if (object.getJSONObject("data") == null) {
@@ -59,9 +64,14 @@ public class CopyAlistFileService {
                 //是视频文件才复制 并且不存在
                 if (!(200 == jsonObject.getInteger("code")) && Utils.isVideo(name)) {
                     alistService.copyAlist(srcDir + "/" + relativePath, dstDir + "/" + relativePath, Collections.singletonList(name));
+                    flag.set(true);
                 }
             }
         });
+
+        if(flag.get()){
+            asynService.isCopyDone();
+        }
 
 
     }

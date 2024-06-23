@@ -1,5 +1,9 @@
-package cn.jackding.aliststrm;
+package cn.jackding.aliststrm.tg;
 
+import cn.jackding.aliststrm.config.Config;
+import cn.jackding.aliststrm.service.CopyAlistFileService;
+import cn.jackding.aliststrm.util.SpringContextUtil;
+import cn.jackding.aliststrm.service.StrmService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.telegram.abilitybots.api.bot.AbilityBot;

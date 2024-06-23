@@ -1,4 +1,4 @@
-package cn.jackding.aliststrm;
+package cn.jackding.aliststrm.service;
 
 import cn.jackding.aliststrm.alist.AlistService;
 import cn.jackding.aliststrm.util.Utils;
