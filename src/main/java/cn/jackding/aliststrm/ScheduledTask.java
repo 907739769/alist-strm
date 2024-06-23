@@ -33,7 +33,7 @@ public class ScheduledTask {
         if (jsonObject == null || !(200 == jsonObject.getInteger("code"))) {
             return;
         }
-        if (CollectionUtils.isEmpty(jsonObject.getJSONObject("data"))) {
+        if (CollectionUtils.isEmpty(jsonObject.getJSONArray("data"))) {
             copyAlistFileService.syncFiles("");
         }
     }

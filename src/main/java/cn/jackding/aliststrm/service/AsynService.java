@@ -38,7 +38,7 @@ public class AsynService {
             if (jsonObject == null || !(200 == jsonObject.getInteger("code"))) {
                 break;
             }
-            if (CollectionUtils.isEmpty(jsonObject.getJSONObject("data"))) {
+            if (CollectionUtils.isEmpty(jsonObject.getJSONArray("data"))) {
                 strmService.strm();
                 break;
             } else {
