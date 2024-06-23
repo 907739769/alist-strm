@@ -273,7 +273,7 @@ public class AlistService {
 
         // 构建请求
         Request request = new Request.Builder()
-                .url(url + "/api/fs/mkdir")
+                .url(url + "/api/admin/task/copy/undone")
                 .headers(headers)
                 .get()
                 .build();
