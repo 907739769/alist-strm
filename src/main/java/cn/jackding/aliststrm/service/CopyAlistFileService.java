@@ -5,6 +5,7 @@ import cn.jackding.aliststrm.util.Utils;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Slf4j
 public class CopyAlistFileService {
 
-    @Value("${srcDir}")
+    @Value("${srcDir:}")
     private String srcDir;
 
-    @Value("${dstDir}")
+    @Value("${dstDir:}")
     private String dstDir;
 
     @Autowired
@@ -36,6 +37,9 @@ public class CopyAlistFileService {
     private AsynService asynService;
 
     public void syncFiles(String relativePath) {
+        if (StringUtils.isAnyBlank(srcDir, dstDir)) {
+            return;
+        }
         AtomicBoolean flag = new AtomicBoolean(false);
         //查出所有源目录
         JSONObject object = alistService.getAlist(srcDir + relativePath);
@@ -69,7 +73,7 @@ public class CopyAlistFileService {
             }
         });
 
-        if(flag.get()){
+        if (flag.get()) {
             asynService.isCopyDone();
         }
 
