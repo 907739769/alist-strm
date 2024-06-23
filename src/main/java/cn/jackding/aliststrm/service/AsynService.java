@@ -32,6 +32,7 @@ public class AsynService {
      */
     @Async
     public void isCopyDone() {
+        Utils.sleep(30);
         while (true) {
             JSONObject jsonObject = alistService.copyUndone();
             if (jsonObject == null || !(200 == jsonObject.getInteger("code"))) {
