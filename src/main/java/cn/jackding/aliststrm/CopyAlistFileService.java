@@ -44,10 +44,10 @@ public class CopyAlistFileService {
         jsonArray.forEach(content -> {
             JSONObject contentJson = (JSONObject) content;
             String name = contentJson.getString("name");
+            JSONObject jsonObject = alistService.getFile(dstDir + "/" + relativePath + "/" + name);
             //是目录
             if (contentJson.getBoolean("is_dir")) {
                 //判断目标目录是否存在这个文件夹
-                JSONObject jsonObject = alistService.getFile(dstDir + "/" + relativePath + "/" + name);
                 //200就是存在 存在就继续往下级目录找
                 if (200 == jsonObject.getInteger("code")) {
                     syncFiles(relativePath + "/" + name);
@@ -56,8 +56,8 @@ public class CopyAlistFileService {
                     syncFiles(relativePath + "/" + name);
                 }
             } else {
-                //是视频文件才复制
-                if (Utils.isVideo(name)) {
+                //是视频文件才复制 并且不存在
+                if (!(200 == jsonObject.getInteger("code")) && Utils.isVideo(name)) {
                     alistService.copyAlist(srcDir + "/" + relativePath, dstDir + "/" + relativePath, Collections.singletonList(name));
                 }
             }
