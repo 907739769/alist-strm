@@ -36,7 +36,7 @@ public class CopyAlistFileService {
     @Autowired
     private AsynService asynService;
 
-    public void syncFiles(String relativePath) {
+    public void syncFiles(String srcDir, String dstDir, String relativePath) {
         if (StringUtils.isAnyBlank(srcDir, dstDir)) {
             return;
         }
@@ -59,10 +59,10 @@ public class CopyAlistFileService {
                 //判断目标目录是否存在这个文件夹
                 //200就是存在 存在就继续往下级目录找
                 if (200 == jsonObject.getInteger("code")) {
-                    syncFiles(relativePath + "/" + name);
+                    syncFiles(srcDir, dstDir, relativePath + "/" + name);
                 } else {
                     alistService.mkdir(dstDir + "/" + relativePath + "/" + name);
-                    syncFiles(relativePath + "/" + name);
+                    syncFiles(srcDir, dstDir, relativePath + "/" + name);
                 }
             } else {
                 //是视频文件才复制 并且不存在
@@ -78,6 +78,10 @@ public class CopyAlistFileService {
         }
 
 
+    }
+
+    public void syncFiles(String relativePath) {
+        syncFiles(srcDir, dstDir, relativePath);
     }
 
 

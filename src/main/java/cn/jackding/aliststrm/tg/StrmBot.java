@@ -2,8 +2,8 @@ package cn.jackding.aliststrm.tg;
 
 import cn.jackding.aliststrm.config.Config;
 import cn.jackding.aliststrm.service.CopyAlistFileService;
-import cn.jackding.aliststrm.util.SpringContextUtil;
 import cn.jackding.aliststrm.service.StrmService;
+import cn.jackding.aliststrm.util.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.telegram.abilitybots.api.bot.AbilityBot;
@@ -78,7 +78,7 @@ public class StrmBot extends AbilityBot {
                     strmService.strmDir(parameter);
                     silent.send("==执行指定路径strm任务完成==", ctx.chatId());
                 })
-                .reply((bot, upd) -> responseHandler.replyToStrmDdir(getChatId(upd), upd.getMessage().getText(), upd.getMessage().getMessageId()), Flag.REPLY,//回复
+                .reply((bot, upd) -> responseHandler.replyToStrmDir(getChatId(upd), upd.getMessage().getText(), upd.getMessage().getMessageId()), Flag.REPLY,//回复
                         upd -> upd.getMessage().getReplyToMessage().hasText(), upd -> upd.getMessage().getReplyToMessage().getText().equals("请输入路径")//回复的是上面的问题
                 )
                 .build();
@@ -97,6 +97,43 @@ public class StrmBot extends AbilityBot {
                     copyAlistFileService.syncFiles("");
                     silent.send("==执行同步alist任务完成==", ctx.chatId());
                 })
+                .build();
+    }
+
+    public Ability syncDir() {
+        return Ability.builder()
+                .name("syncdir")
+                .info("同步alist指定目录")
+                .privacy(CREATOR)
+                .locality(USER)
+                .input(0)
+                .action(ctx -> {
+                    String parameter;
+                    try {
+                        parameter = ctx.firstArg();
+                    } catch (Exception e) {
+                        silent.forceReply("请输入路径(格式：源路径#目标路径)", ctx.chatId());
+                        return;
+                    }
+                    if (StringUtils.isBlank(parameter)) {
+                        silent.forceReply("请输入路径(格式：源路径#目标路径)", ctx.chatId());
+                        return;
+                    }
+                    if (!parameter.contains("#")) {
+                        silent.send("请输入正确的参数，例如：/阿里云盘/电影#/115网盘/电影", ctx.chatId());
+                    }
+                    String[] strings = parameter.split("#");
+                    if (strings.length != 2) {
+                        silent.send("请输入正确的参数，例如：/阿里云盘/电影#/115网盘/电影", ctx.chatId());
+                    }
+                    silent.send("==开始执行同步alist指定目录任务==", ctx.chatId());
+                    CopyAlistFileService copyAlistFileService = (CopyAlistFileService) SpringContextUtil.getBean("copyAlistFileService");
+                    copyAlistFileService.syncFiles(strings[0], strings[1], "");
+                    silent.send("==执行同步alist指定目录任务完成==", ctx.chatId());
+                })
+                .reply((bot, upd) -> responseHandler.replyToSyncDir(getChatId(upd), upd.getMessage().getText(), upd.getMessage().getMessageId()), Flag.REPLY,//回复
+                        upd -> upd.getMessage().getReplyToMessage().hasText(), upd -> upd.getMessage().getReplyToMessage().getText().equals("请输入路径(格式：源路径#目标路径)")//回复的是上面的问题
+                )
                 .build();
     }
 
