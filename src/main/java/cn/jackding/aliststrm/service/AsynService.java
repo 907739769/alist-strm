@@ -31,7 +31,7 @@ public class AsynService {
      * @Async
      */
     @Async
-    public void isCopyDone() {
+    public void isCopyDone(String dstDir) {
         Utils.sleep(30);
         while (true) {
             JSONObject jsonObject = alistService.copyUndone();
@@ -39,7 +39,7 @@ public class AsynService {
                 break;
             }
             if (CollectionUtils.isEmpty(jsonObject.getJSONArray("data"))) {
-                strmService.strm();
+                strmService.strmDir(dstDir);
                 break;
             } else {
                 Utils.sleep(30);

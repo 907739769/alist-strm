@@ -74,7 +74,7 @@ public class CopyAlistFileService {
         });
 
         if (flag.get()) {
-            asynService.isCopyDone();
+            asynService.isCopyDone(dstDir);
         }
 
 
