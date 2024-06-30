@@ -36,6 +36,9 @@ public class CopyAlistFileService {
     @Autowired
     private AsynService asynService;
 
+    @Value("${minFileSize:100}")
+    private String minFileSize;
+
     public void syncFiles(String srcDir, String dstDir, String relativePath) {
         if (StringUtils.isAnyBlank(srcDir, dstDir)) {
             return;
@@ -67,8 +70,10 @@ public class CopyAlistFileService {
             } else {
                 //是视频文件才复制 并且不存在
                 if (!(200 == jsonObject.getInteger("code")) && Utils.isVideo(name)) {
-                    alistService.copyAlist(srcDir + "/" + relativePath, dstDir + "/" + relativePath, Collections.singletonList(name));
-                    flag.set(true);
+                    if (contentJson.getInteger("size") > Integer.parseInt(minFileSize) * 1024 * 1024) {
+                        alistService.copyAlist(srcDir + "/" + relativePath, dstDir + "/" + relativePath, Collections.singletonList(name));
+                        flag.set(true);
+                    }
                 }
             }
         });
