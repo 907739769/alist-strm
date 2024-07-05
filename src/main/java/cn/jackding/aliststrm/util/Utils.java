@@ -1,5 +1,6 @@
 package cn.jackding.aliststrm.util;
 
+import cn.jackding.aliststrm.tg.TgSendMsg;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
@@ -31,6 +32,10 @@ public class Utils {
         } catch (InterruptedException e) {
             log.error("", e);
         }
+    }
+
+    public static void sendTgMsg(String msg) {
+        new TgSendMsg().sendMsg(msg);
     }
 
 }
