@@ -18,4 +18,5 @@ ENV JAVA_OPTS=""
 ENV srcDir=""
 ENV dstDir=""
 ENV runAfterStartup="1"
+ENV minFileSize="100"
 ENTRYPOINT ["sh","-c","java -jar $JAVA_OPTS -XX:+OptimizeStringConcat -XX:+PrintGCDetails -Xloggc:/log/gc.log  -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/log /aliststrm.jar"]

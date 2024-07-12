@@ -50,24 +50,20 @@ public class StrmService {
     private AlistService alistService;
 
     public void strm() {
-        log.info("开始执行strm任务{}", LocalDateTime.now());
-        try {
-            getData(path, outputDir + File.separator + path.replace("/", File.separator));
-        } catch (Exception e) {
-            log.error("", e);
-        } finally {
-            log.info("任务执行完成{}", LocalDateTime.now());
-        }
+        strmDir(path);
     }
 
     public void strmDir(String path) {
         log.info("开始执行指定路径strm任务{}", LocalDateTime.now());
+        Utils.sendTgMsg("开始执行任务");
         try {
             getData(path, outputDir + File.separator + path.replace("/", File.separator));
         } catch (Exception e) {
+            Utils.sendTgMsg("任务执行出错");
             log.error("", e);
         } finally {
             log.info("任务执行完成{}", LocalDateTime.now());
+            Utils.sendTgMsg("任务执行完成");
         }
     }
 
