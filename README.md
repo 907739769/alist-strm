@@ -21,6 +21,7 @@ runAfterStartup  启动是否立即执行同步任务 默认启用1，启用填0
 复制alist不同目录的视频 源目录删除不会删除目标目录文件 只会新增
 srcDir 源目录
 dstDir 目标目录
+minFileSize 复制的最小文件
 
 ```
 
