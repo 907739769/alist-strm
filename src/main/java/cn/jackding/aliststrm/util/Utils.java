@@ -18,7 +18,7 @@ public class Utils {
                 || name.toLowerCase().endsWith(".avi") || name.toLowerCase().endsWith(".mov")
                 || name.toLowerCase().endsWith(".rmvb") || name.toLowerCase().endsWith(".flv")
                 || name.toLowerCase().endsWith(".webm") || name.toLowerCase().endsWith(".m3u8")
-                || name.toLowerCase().endsWith(".wmv") || name.toLowerCase().endsWith(".iso");
+                || name.toLowerCase().endsWith(".wmv") || name.toLowerCase().endsWith(".iso") || name.toLowerCase().endsWith(".ts");
 
     }
 
