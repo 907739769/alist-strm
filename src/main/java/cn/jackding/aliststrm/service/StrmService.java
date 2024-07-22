@@ -131,7 +131,7 @@ public class StrmService {
         // 创建URL对象
         URL url = null;
         try {
-            url = new URL(URLEncoder.encode(fileURL, "UTF-8").replaceFirst("%3A", ":").replace("+", "%20").replace("%2F", "/"));
+            url = new URL(fileURL);
         } catch (Exception e) {
             log.error("文件{}下载失败1", fileURL);
             throw new RuntimeException(e);
