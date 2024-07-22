@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -132,8 +131,9 @@ public class StrmService {
         // 创建URL对象
         URL url = null;
         try {
-            url = new URL(fileURL);
-        } catch (MalformedURLException e) {
+            url = new URL(URLEncoder.encode(fileURL, "UTF-8").replace("+", "%20").replace("%2F", "/"));
+        } catch (Exception e) {
+            log.error("文件{}下载失败1", fileURL);
             throw new RuntimeException(e);
         }
         // 打开连接
@@ -141,6 +141,7 @@ public class StrmService {
         try {
             connection = url.openConnection();
         } catch (IOException e) {
+            log.error("文件{}下载失败2", fileURL);
             throw new RuntimeException(e);
         }
         try (InputStream inputStream = new BufferedInputStream(connection.getInputStream()); FileOutputStream outputStream = new FileOutputStream(saveDir);) {
@@ -154,6 +155,7 @@ public class StrmService {
             }
 
         } catch (IOException ex) {
+            log.error("文件{}下载失败3", fileURL);
             log.error("", ex);
         }
     }
