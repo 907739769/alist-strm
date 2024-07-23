@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -38,6 +40,8 @@ public class CopyAlistFileService {
 
     @Value("${minFileSize:100}")
     private String minFileSize;
+
+    private List<String> cache = new CopyOnWriteArrayList<>();
 
     public void syncFiles(String srcDir, String dstDir, String relativePath) {
         if (StringUtils.isAnyBlank(srcDir, dstDir)) {
@@ -68,10 +72,14 @@ public class CopyAlistFileService {
                     syncFiles(srcDir, dstDir, relativePath + "/" + name);
                 }
             } else {
+                if (cache.contains(dstDir + "/" + relativePath + "/" + name)) {
+                    return;
+                }
                 //是视频文件才复制 并且不存在
                 if (!(200 == jsonObject.getInteger("code")) && Utils.isVideo(name)) {
                     if (contentJson.getLong("size") > Long.parseLong(minFileSize) * 1024 * 1024) {
                         alistService.copyAlist(srcDir + "/" + relativePath, dstDir + "/" + relativePath, Collections.singletonList(name));
+                        cache.add(dstDir + "/" + relativePath + "/" + name);
                         flag.set(true);
                     }
                 }
