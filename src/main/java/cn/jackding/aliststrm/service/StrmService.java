@@ -14,6 +14,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
@@ -47,6 +49,8 @@ public class StrmService {
 
     @Autowired
     private AlistService alistService;
+
+    private List<String> cache = new CopyOnWriteArrayList<>();
 
     public void strm() {
         strmDir(path);
@@ -97,9 +101,15 @@ public class StrmService {
                 if (object.getBoolean("is_dir")) {
                     String newLocalPath = localPath + File.separator + (name.length() > 100 ? name.substring(0, 20) : name);
                     File file = new File(newLocalPath);
-                    file.mkdirs();
+                    if (!file.exists()) {
+                        file.mkdirs();
+                    }
                     getData(path + "/" + name, newLocalPath);
                 } else {
+                    //判断是否处理过
+                    if (cache.contains(path + "/" + name)) {
+                        return;
+                    }
                     //视频文件
                     if (Utils.isVideo(name)) {
                         String fileName = name.substring(0, name.lastIndexOf(".")).replaceAll("[\\\\/:*?\"<>|]", "");
@@ -109,6 +119,7 @@ public class StrmService {
                                 encodePath = URLEncoder.encode(path + "/" + name, "UTF-8").replace("+", "%20").replace("%2F", "/");
                             }
                             writer.write(url + "/d" + encodePath);
+                            cache.add(path + "/" + name);
                         } catch (Exception e) {
                             log.error("", e);
                         }
@@ -119,6 +130,7 @@ public class StrmService {
                         String url = alistService.getFile(path + "/" + name).getJSONObject("data").getString("raw_url");
                         String fileName = name.replaceAll("[\\\\/:*?\"<>|]", "");
                         downloadFile(url, localPath + File.separator + (fileName.length() > 62 ? fileName.substring(0, 60) : fileName) + name.substring(name.lastIndexOf(".")));
+                        cache.add(path + "/" + name);
                     }
                 }
             });
