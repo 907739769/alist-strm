@@ -5,6 +5,7 @@ import cn.jackding.aliststrm.util.Utils;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -140,6 +141,9 @@ public class StrmService {
     }
 
     public static void downloadFile(String fileURL, String saveDir) {
+        if (StringUtils.isBlank(fileURL)) {
+            return;
+        }
         // 创建URL对象
         URL url = null;
         try {
