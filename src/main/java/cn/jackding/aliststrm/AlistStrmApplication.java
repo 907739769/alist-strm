@@ -5,6 +5,9 @@ import cn.jackding.aliststrm.service.StrmService;
 import cn.jackding.aliststrm.tg.StrmBot;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -29,6 +32,9 @@ public class AlistStrmApplication implements CommandLineRunner {
     @Value("${runAfterStartup:1}")
     private String runAfterStartup;
 
+    @Value("${logLevel:}")
+    private String logLevel;
+
 
     public static void main(String[] args) {
         SpringApplication.run(AlistStrmApplication.class, args);
@@ -36,8 +42,13 @@ public class AlistStrmApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        if (StringUtils.isNotBlank(logLevel)) {
+            Configurator.setAllLevels(LogManager.getRootLogger().getName(), Level.valueOf(logLevel));
+        }
         if ("1".equals(runAfterStartup)) {
             strmService.strm();
+        } else {
+            log.info("启动立即执行任务未启用，等待定时任务处理");
         }
         if (StringUtils.isBlank(Config.tgUserId) || StringUtils.isBlank(Config.tgToken)) {
             return;
