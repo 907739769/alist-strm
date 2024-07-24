@@ -1,4 +1,4 @@
-FROM eclipse-temurin:8u342-b07-jre-jammy
+FROM eclipse-temurin:8u412-b08-jre-jammy
 LABEL title="alist-strm"
 LABEL description="将alist的视频文件生成媒体播放设备可播放的strm文件"
 LABEL authors="JackDing"
