@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Stream;
 
 /**
  * 复制alist文件
@@ -41,6 +43,9 @@ public class CopyAlistFileService {
     @Value("${minFileSize:100}")
     private String minFileSize;
 
+    @Value("${slowMode:0}")
+    private String slowMode;
+
     private List<String> cache = new CopyOnWriteArrayList<>();
 
     public void syncFiles(String srcDir, String dstDir, String relativePath) {
@@ -57,7 +62,20 @@ public class CopyAlistFileService {
         if (jsonArray == null) {
             return;
         }
-        jsonArray.forEach(content -> {
+        //判断是不是用多线程流
+        Stream<Object> stream;
+        if ("1".equals(slowMode)) {
+            stream = jsonArray.stream().sequential();
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception e) {
+                log.error("", e);
+            }
+        } else {
+            System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "49");
+            stream = jsonArray.stream().parallel();
+        }
+        stream.forEach(content -> {
             JSONObject contentJson = (JSONObject) content;
             String name = contentJson.getString("name");
             JSONObject jsonObject = alistService.getFile(dstDir + "/" + relativePath + "/" + name);
