@@ -92,7 +92,6 @@ public class StrmService {
                     log.error("", e);
                 }
             } else {
-                System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "49");
                 stream = jsonArray.stream().parallel();
             }
 

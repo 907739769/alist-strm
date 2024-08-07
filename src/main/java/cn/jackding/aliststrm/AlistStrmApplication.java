@@ -35,6 +35,8 @@ public class AlistStrmApplication implements CommandLineRunner {
     @Value("${logLevel:}")
     private String logLevel;
 
+    @Value("${slowMode:0}")
+    private String slowMode;
 
     public static void main(String[] args) {
         SpringApplication.run(AlistStrmApplication.class, args);
@@ -44,6 +46,9 @@ public class AlistStrmApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (StringUtils.isNotBlank(logLevel)) {
             Configurator.setAllLevels(LogManager.getRootLogger().getName(), Level.valueOf(logLevel));
+        }
+        if (!"1".equals(slowMode)) {
+            System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "99");
         }
         if ("1".equals(runAfterStartup)) {
             strmService.strm();
