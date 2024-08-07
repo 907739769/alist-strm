@@ -24,10 +24,14 @@ public class AlistService {
     @Value("${alistServerUrl}")
     private String url;
 
+    @Value("${maxIdleConnections:5}")
+    private String maxIdleConnections;
+
     private final OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
             .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
             .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
+            .connectionPool(new ConnectionPool(Integer.parseInt(maxIdleConnections), 5, TimeUnit.SECONDS))
             .build();
 
     public JSONObject getAlist(String path) {
