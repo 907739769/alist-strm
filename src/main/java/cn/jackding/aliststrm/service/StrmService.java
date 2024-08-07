@@ -100,7 +100,7 @@ public class StrmService {
                 JSONObject object = (JSONObject) obj;
                 String name = object.getString("name");
                 if (object.getBoolean("is_dir")) {
-                    String newLocalPath = localPath + File.separator + (name.length() > 100 ? name.substring(0, 20) : name);
+                    String newLocalPath = localPath + File.separator + (name.length() > 255 ? name.substring(0, 250) : name);
                     File file = new File(newLocalPath);
                     if (!file.exists()) {
                         file.mkdirs();
@@ -114,7 +114,7 @@ public class StrmService {
                     //视频文件
                     if (Utils.isVideo(name)) {
                         String fileName = name.substring(0, name.lastIndexOf(".")).replaceAll("[\\\\/:*?\"<>|]", "");
-                        try (FileWriter writer = new FileWriter(localPath + File.separator + (fileName.length() > 62 ? fileName.substring(0, 60) : fileName) + ".strm")) {
+                        try (FileWriter writer = new FileWriter(localPath + File.separator + (fileName.length() > 255 ? fileName.substring(0, 250) : fileName) + ".strm")) {
                             String encodePath = path + "/" + name;
                             if ("1".equals(encode)) {
                                 encodePath = URLEncoder.encode(path + "/" + name, "UTF-8").replace("+", "%20").replace("%2F", "/");
@@ -130,7 +130,7 @@ public class StrmService {
                     if ("1".equals(isDownSub) && Utils.isSrt(name)) {
                         String url = alistService.getFile(path + "/" + name).getJSONObject("data").getString("raw_url");
                         String fileName = name.replaceAll("[\\\\/:*?\"<>|]", "");
-                        downloadFile(url, localPath + File.separator + (fileName.length() > 62 ? fileName.substring(0, 60) : fileName) + name.substring(name.lastIndexOf(".")));
+                        downloadFile(url, localPath + File.separator + (fileName.length() > 255 ? fileName.substring(0, 250) : fileName) + name.substring(name.lastIndexOf(".")));
                         cache.add(path + "/" + name);
                     }
                 }
