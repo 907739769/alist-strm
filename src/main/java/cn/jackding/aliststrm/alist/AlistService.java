@@ -27,14 +27,17 @@ public class AlistService {
     @Value("${maxIdleConnections:5}")
     private String maxIdleConnections;
 
-    private final OkHttpClient client = new OkHttpClient.Builder()
-            .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
-            .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
-            .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
-            .connectionPool(new ConnectionPool(Integer.parseInt(maxIdleConnections), 5, TimeUnit.SECONDS))
-            .build();
+    private OkHttpClient client;
 
     public JSONObject getAlist(String path) {
+        if (client == null) {
+            client = new OkHttpClient.Builder()
+                    .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
+                    .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
+                    .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
+                    .connectionPool(new ConnectionPool(Integer.parseInt(maxIdleConnections), 5, TimeUnit.SECONDS))
+                    .build();
+        }
         JSONObject jsonResponse = null;
 
         // 设置请求头
@@ -96,6 +99,14 @@ public class AlistService {
     }
 
     public JSONObject getFile(String path) {
+        if (client == null) {
+            client = new OkHttpClient.Builder()
+                    .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
+                    .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
+                    .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
+                    .connectionPool(new ConnectionPool(Integer.parseInt(maxIdleConnections), 5, TimeUnit.SECONDS))
+                    .build();
+        }
         JSONObject jsonResponse;
 
         // 设置请求头
@@ -151,6 +162,14 @@ public class AlistService {
 
 
     public JSONObject copyAlist(String srcDir, String dstDir, List<String> names) {
+        if (client == null) {
+            client = new OkHttpClient.Builder()
+                    .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
+                    .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
+                    .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
+                    .connectionPool(new ConnectionPool(Integer.parseInt(maxIdleConnections), 5, TimeUnit.SECONDS))
+                    .build();
+        }
         JSONObject jsonResponse = null;
 
         // 设置请求头
@@ -211,6 +230,14 @@ public class AlistService {
 
 
     public JSONObject mkdir(String path) {
+        if (client == null) {
+            client = new OkHttpClient.Builder()
+                    .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
+                    .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
+                    .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
+                    .connectionPool(new ConnectionPool(Integer.parseInt(maxIdleConnections), 5, TimeUnit.SECONDS))
+                    .build();
+        }
         JSONObject jsonResponse;
 
         // 设置请求头
@@ -266,6 +293,14 @@ public class AlistService {
      * @return
      */
     public JSONObject copyUndone() {
+        if (client == null) {
+            client = new OkHttpClient.Builder()
+                    .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
+                    .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
+                    .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
+                    .connectionPool(new ConnectionPool(Integer.parseInt(maxIdleConnections), 5, TimeUnit.SECONDS))
+                    .build();
+        }
         JSONObject jsonResponse;
 
         // 设置请求头
