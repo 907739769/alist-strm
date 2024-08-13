@@ -48,7 +48,7 @@ public class AlistStrmApplication implements CommandLineRunner {
             Configurator.setAllLevels(LogManager.getRootLogger().getName(), Level.valueOf(logLevel));
         }
         if (!"1".equals(slowMode)) {
-            System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "99");
+            System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "49");
         }
         if ("1".equals(runAfterStartup)) {
             strmService.strm();

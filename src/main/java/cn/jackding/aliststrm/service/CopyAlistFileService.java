@@ -95,9 +95,11 @@ public class CopyAlistFileService {
                 //是视频文件才复制 并且不存在
                 if (!(200 == jsonObject.getInteger("code")) && Utils.isVideo(name)) {
                     if (contentJson.getLong("size") > Long.parseLong(minFileSize) * 1024 * 1024) {
-                        alistService.copyAlist(srcDir + "/" + relativePath, dstDir + "/" + relativePath, Collections.singletonList(name));
-                        cache.add(dstDir + "/" + relativePath + "/" + name);
-                        flag.set(true);
+                        JSONObject jsonResponse= alistService.copyAlist(srcDir + "/" + relativePath, dstDir + "/" + relativePath, Collections.singletonList(name));
+                        if (jsonResponse != null && 200 == jsonResponse.getInteger("code")) {
+                            cache.add(dstDir + "/" + relativePath + "/" + name);
+                            flag.set(true);
+                        }
                     }
                 }
             }
