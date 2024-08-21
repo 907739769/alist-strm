@@ -27,6 +27,9 @@ public class AlistService {
     @Value("${maxIdleConnections:5}")
     private String maxIdleConnections;
 
+    @Value("${refresh:1}")
+    private String refresh;
+
     private OkHttpClient client;
 
     public JSONObject getAlist(String path) {
@@ -53,7 +56,11 @@ public class AlistService {
         requestBodyJson.put("password", "");
         requestBodyJson.put("page", 1);
         requestBodyJson.put("per_page", 0);
-        requestBodyJson.put("refresh", true);
+        if ("1".equals(refresh)) {
+            requestBodyJson.put("refresh", true);
+        } else {
+            requestBodyJson.put("refresh", false);
+        }
         String requestBodyString = requestBodyJson.toJSONString();
 
         // 构建请求
@@ -122,7 +129,11 @@ public class AlistService {
         requestBodyJson.put("password", "");
         requestBodyJson.put("page", 1);
         requestBodyJson.put("per_page", 0);
-        requestBodyJson.put("refresh", true);
+        if ("1".equals(refresh)) {
+            requestBodyJson.put("refresh", true);
+        } else {
+            requestBodyJson.put("refresh", false);
+        }
         String requestBodyString = requestBodyJson.toJSONString();
 
         // 构建请求
