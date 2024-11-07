@@ -92,7 +92,7 @@ services:
 
 # qb脚本参考
 
-`sh /config/notify.sh "%G" "%D"`
+`sh /config/notify.sh "%G" "%F"`
 
 ```
 #!/bin/bash
@@ -105,6 +105,6 @@ MOVIEPILOT="MOVIEPILOT"
 if [[ "$TAG" =~ "$MOVIEPILOT" ]]; then
   # 调用 notify 接口
   #curl -X POST http://192.168.31.66:6894/api/v1/notify
-  curl -X POST -H "Content-Type: application/json" -d "{\"dir\": \"$dir\"}" http://192.168.31.66:6894/api/v1/notifyByDir
+  curl -X POST -H "Content-Type: application/json" -d "{\"dir\": \"$dir\"}" http://192.168.31.66:6894/api/v1/notifyByDir &>/dev/null &
 fi
 ```
