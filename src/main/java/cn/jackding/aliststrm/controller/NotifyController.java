@@ -2,9 +2,14 @@ package cn.jackding.aliststrm.controller;
 
 import cn.jackding.aliststrm.service.CopyAlistFileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * @Author Jack
@@ -15,12 +20,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1")
 public class NotifyController {
 
+    @Value("${replaceDir:}")
+    private String replaceDir;
+
     @Autowired
     private CopyAlistFileService copyAlistFileService;
 
     @PostMapping("/notify")
     public void notifySync() {
         copyAlistFileService.syncFiles("");
+    }
+
+    @PostMapping("/notifyByDir")
+    public void notifyByDir(@RequestBody Map<String, Object> map) {
+        String relativePath="";
+        if (StringUtils.hasText(replaceDir) && StringUtils.hasText((CharSequence) map.get("dir"))) {
+            relativePath=map.get("dir").toString().replace(replaceDir, "");
+        }
+        copyAlistFileService.syncFiles(relativePath);
     }
 
 }

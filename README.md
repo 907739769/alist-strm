@@ -32,6 +32,7 @@ refresh参数  是否去读取网盘最新数据，1是实时读取网盘 0是�
 srcDir 源目录
 dstDir 目标目录
 minFileSize 复制的最小文件
+replaceDir qb的下载根目录 使用/api/v1/notifyByDir接口时需要填
 
 ```
 
@@ -53,6 +54,7 @@ minFileSize 复制的最小文件
 20240724 增加参数配置日志级别 增加复制任务多线程执行
 20240807 增加HTTP调用线程池参数配置maxIdleConnections 默认5
 20240821 增加refresh参数  是否去读取网盘最新数据，1是实时读取网盘 0是读取alist缓存 默认1
+20241107 增加/api/v1/notifyByDir接口和replaceDir参数，按需同步目录，防止同步文件太多，耗时过长
 ```
 
 # docker CLI安装
@@ -86,4 +88,23 @@ services:
       slowMode: 0
     volumes:
       - /volume1/docker/alist-strm/data:/data
+```
+
+# qb脚本参考
+
+`sh /config/notify.sh "%G" "%D"`
+
+```
+#!/bin/bash
+
+# 获取传递的标签
+TAG=$1
+dir=$2
+MOVIEPILOT="MOVIEPILOT"
+
+if [[ "$TAG" =~ "$MOVIEPILOT" ]]; then
+  # 调用 notify 接口
+  #curl -X POST http://192.168.31.66:6894/api/v1/notify
+  curl -X POST -H "Content-Type: application/json" -d "{\"dir\": \"$dir\"}" http://192.168.31.66:6894/api/v1/notifyByDir
+fi
 ```

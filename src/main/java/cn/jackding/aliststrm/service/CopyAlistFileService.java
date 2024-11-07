@@ -46,9 +46,11 @@ public class CopyAlistFileService {
     @Value("${slowMode:0}")
     private String slowMode;
 
+    private String strmDir;
+
     private List<String> cache = new CopyOnWriteArrayList<>();
 
-    public void syncFiles(String srcDir, String dstDir, String relativePath) {
+    public void syncFiles(String srcDir, String dstDir, String relativePath, String strmDir) {
         if (StringUtils.isAnyBlank(srcDir, dstDir)) {
             return;
         }
@@ -95,7 +97,7 @@ public class CopyAlistFileService {
                 //是视频文件才复制 并且不存在
                 if (!(200 == jsonObject.getInteger("code")) && Utils.isVideo(name)) {
                     if (contentJson.getLong("size") > Long.parseLong(minFileSize) * 1024 * 1024) {
-                        JSONObject jsonResponse= alistService.copyAlist(srcDir + "/" + relativePath, dstDir + "/" + relativePath, Collections.singletonList(name));
+                        JSONObject jsonResponse = alistService.copyAlist(srcDir + "/" + relativePath, dstDir + "/" + relativePath, Collections.singletonList(name));
                         if (jsonResponse != null && 200 == jsonResponse.getInteger("code")) {
                             cache.add(dstDir + "/" + relativePath + "/" + name);
                             flag.set(true);
@@ -106,14 +108,19 @@ public class CopyAlistFileService {
         });
 
         if (flag.get()) {
-            asynService.isCopyDone(dstDir);
+            asynService.isCopyDone(dstDir+strmDir);
         }
 
 
     }
 
+    public void syncFiles(String srcDir, String dstDir, String relativePath) {
+        syncFiles(srcDir, dstDir, relativePath, null);
+    }
+
     public void syncFiles(String relativePath) {
-        syncFiles(srcDir, dstDir, relativePath);
+        strmDir = relativePath;
+        syncFiles(srcDir, dstDir, relativePath, strmDir);
     }
 
 
