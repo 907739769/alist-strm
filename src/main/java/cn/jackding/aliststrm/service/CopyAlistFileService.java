@@ -46,8 +46,6 @@ public class CopyAlistFileService {
     @Value("${slowMode:0}")
     private String slowMode;
 
-    private String strmDir;
-
     private List<String> cache = new CopyOnWriteArrayList<>();
 
     public void syncFiles(String srcDir, String dstDir, String relativePath, String strmDir) {
@@ -119,8 +117,7 @@ public class CopyAlistFileService {
     }
 
     public void syncFiles(String relativePath) {
-        strmDir = relativePath;
-        syncFiles(srcDir, dstDir, relativePath, strmDir);
+        syncFiles(srcDir, dstDir, relativePath, relativePath);
     }
 
 
