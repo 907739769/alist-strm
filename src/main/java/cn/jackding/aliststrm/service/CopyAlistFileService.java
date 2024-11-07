@@ -113,7 +113,7 @@ public class CopyAlistFileService {
     }
 
     public void syncFiles(String srcDir, String dstDir, String relativePath) {
-        syncFiles(srcDir, dstDir, relativePath, null);
+        syncFiles(srcDir, dstDir, relativePath, "");
     }
 
     public void syncFiles(String relativePath) {
