@@ -113,7 +113,7 @@ public class CopyAlistFileService {
     }
 
     public void syncOneFile(String srcDir, String dstDir, String relativePath) {
-        if (cache.contains(dstDir + "/" + relativePath)) {
+        if (cache.contains(dstDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")))) {
             return;
         }
         AtomicBoolean flag = new AtomicBoolean(false);
@@ -124,7 +124,7 @@ public class CopyAlistFileService {
                 alistService.mkdir(dstDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")));
                 JSONObject jsonResponse = alistService.copyAlist(srcDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")), dstDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")), Collections.singletonList(relativePath.substring(relativePath.lastIndexOf("/"))));
                 if (jsonResponse != null && 200 == jsonResponse.getInteger("code")) {
-                    cache.add(dstDir + "/" + relativePath);
+                    cache.add(dstDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")));
                     flag.set(true);
                 }
             }

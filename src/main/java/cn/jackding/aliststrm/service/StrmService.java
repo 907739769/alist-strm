@@ -73,17 +73,21 @@ public class StrmService {
 
     public void strmOneFile(String path) {
         //判断是否处理过
-        if (cache.contains(path)) {
+        if (cache.contains(path.substring(0, path.lastIndexOf("/")))) {
             return;
         }
         String fileName = path.substring(path.lastIndexOf("/"), path.lastIndexOf(".")).replaceAll("[\\\\/:*?\"<>|]", "");
-        try (FileWriter writer = new FileWriter(outputDir + File.separator + path.replace("/", File.separator) + File.separator + (fileName.length() > 255 ? fileName.substring(0, 250) : fileName) + ".strm")) {
+        File file = new File(outputDir + File.separator + path.substring(0, path.lastIndexOf("/")).replace("/", File.separator));
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        try (FileWriter writer = new FileWriter(outputDir + File.separator + path.substring(0, path.lastIndexOf("/")).replace("/", File.separator) + File.separator + (fileName.length() > 255 ? fileName.substring(0, 250) : fileName) + ".strm")) {
             String encodePath = path;
             if ("1".equals(encode)) {
                 encodePath = URLEncoder.encode(path, "UTF-8").replace("+", "%20").replace("%2F", "/");
             }
             writer.write(url + "/d" + encodePath);
-            cache.add(path);
+            cache.add(path.substring(0, path.lastIndexOf("/")));
         } catch (Exception e) {
             log.error("", e);
         }
