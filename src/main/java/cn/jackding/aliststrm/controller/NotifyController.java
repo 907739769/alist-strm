@@ -1,6 +1,7 @@
 package cn.jackding.aliststrm.controller;
 
 import cn.jackding.aliststrm.service.CopyAlistFileService;
+import cn.jackding.aliststrm.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
@@ -33,9 +34,14 @@ public class NotifyController {
 
     @PostMapping("/notifyByDir")
     public void notifyByDir(@RequestBody Map<String, Object> map) {
-        String relativePath="";
+        String relativePath = "";
         if (StringUtils.hasText(replaceDir) && StringUtils.hasText((CharSequence) map.get("dir"))) {
-            relativePath=map.get("dir").toString().replace(replaceDir, "");
+            relativePath = map.get("dir").toString().replace(replaceDir, "");
+            if (Utils.isVideo(relativePath)) {
+                {
+                    relativePath = relativePath.substring(0, relativePath.lastIndexOf("/"));
+                }
+            }
         }
         copyAlistFileService.syncFiles(relativePath);
     }
