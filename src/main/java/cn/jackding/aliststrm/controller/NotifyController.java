@@ -36,14 +36,15 @@ public class NotifyController {
     public void notifyByDir(@RequestBody Map<String, Object> map) {
         String relativePath = "";
         if (StringUtils.hasText(replaceDir) && StringUtils.hasText((CharSequence) map.get("dir"))) {
-            relativePath = map.get("dir").toString().replace(replaceDir, "");
+            relativePath = map.get("dir").toString().replaceFirst(replaceDir, "");
             if (Utils.isVideo(relativePath)) {
-                {
-                    relativePath = relativePath.substring(0, relativePath.lastIndexOf("/"));
-                }
+                copyAlistFileService.syncOneFile(relativePath);
+            } else {
+                copyAlistFileService.syncFiles(relativePath);
             }
+        } else {
+            copyAlistFileService.syncFiles(relativePath);
         }
-        copyAlistFileService.syncFiles(relativePath);
     }
 
 }

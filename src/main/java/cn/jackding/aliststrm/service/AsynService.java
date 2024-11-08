@@ -24,8 +24,6 @@ public class AsynService {
     @Autowired
     private StrmService strmService;
 
-    private boolean isRun;
-
     /**
      * 判断alist的复制任务是否完成 完成就执行strm任务
      *
@@ -34,20 +32,31 @@ public class AsynService {
      */
     @Async
     public void isCopyDone(String dstDir) {
-        if (isRun) {
-            return;
-        }
-        isRun = true;
         Utils.sleep(30);
         while (true) {
             JSONObject jsonObject = alistService.copyUndone();
             if (jsonObject == null || !(200 == jsonObject.getInteger("code"))) {
-                isRun = false;
                 break;
             }
             if (CollectionUtils.isEmpty(jsonObject.getJSONArray("data"))) {
-                isRun = false;
                 strmService.strmDir(dstDir);
+                break;
+            } else {
+                Utils.sleep(30);
+            }
+        }
+    }
+
+    @Async
+    public void isCopyDoneOneFile(String path) {
+        Utils.sleep(30);
+        while (true) {
+            JSONObject jsonObject = alistService.copyUndone();
+            if (jsonObject == null || !(200 == jsonObject.getInteger("code"))) {
+                break;
+            }
+            if (CollectionUtils.isEmpty(jsonObject.getJSONArray("data"))) {
+                strmService.strmOneFile(path);
                 break;
             } else {
                 Utils.sleep(30);

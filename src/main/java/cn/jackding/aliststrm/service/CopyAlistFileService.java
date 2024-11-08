@@ -106,10 +106,36 @@ public class CopyAlistFileService {
         });
 
         if (flag.get()) {
-            asynService.isCopyDone(dstDir+strmDir);
+            asynService.isCopyDone(dstDir + strmDir);
         }
 
 
+    }
+
+    public void syncOneFile(String srcDir, String dstDir, String relativePath) {
+        if (cache.contains(dstDir + "/" + relativePath)) {
+            return;
+        }
+        AtomicBoolean flag = new AtomicBoolean(false);
+        JSONObject jsonObject = alistService.getFile(dstDir + "/" + relativePath);
+        if (!(200 == jsonObject.getInteger("code")) && Utils.isVideo(relativePath)) {
+            if (jsonObject.getLong("size") > Long.parseLong(minFileSize) * 1024 * 1024) {
+                JSONObject jsonResponse = alistService.copyAlist(srcDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")), dstDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")), Collections.singletonList(relativePath.substring(relativePath.lastIndexOf("/"))));
+                if (jsonResponse != null && 200 == jsonResponse.getInteger("code")) {
+                    cache.add(dstDir + "/" + relativePath);
+                    flag.set(true);
+                }
+            }
+        }
+
+        if (flag.get()) {
+            asynService.isCopyDoneOneFile(dstDir + relativePath);
+        }
+
+    }
+
+    public void syncOneFile(String relativePath) {
+        syncOneFile(srcDir, dstDir, relativePath);
     }
 
     public void syncFiles(String srcDir, String dstDir, String relativePath) {
