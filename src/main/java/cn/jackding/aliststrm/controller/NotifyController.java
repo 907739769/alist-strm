@@ -2,6 +2,7 @@ package cn.jackding.aliststrm.controller;
 
 import cn.jackding.aliststrm.service.CopyAlistFileService;
 import cn.jackding.aliststrm.util.Utils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
@@ -19,6 +20,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("api/v1")
+@Slf4j
 public class NotifyController {
 
     @Value("${replaceDir:}")
@@ -34,6 +36,7 @@ public class NotifyController {
 
     @PostMapping("/notifyByDir")
     public void notifyByDir(@RequestBody Map<String, Object> map) {
+        log.info("map: " + map);
         String relativePath = "";
         if (StringUtils.hasText(replaceDir) && StringUtils.hasText((CharSequence) map.get("dir"))) {
             relativePath = map.get("dir").toString().replaceFirst(replaceDir, "");

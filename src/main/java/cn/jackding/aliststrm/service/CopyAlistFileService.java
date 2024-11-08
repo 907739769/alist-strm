@@ -119,7 +119,9 @@ public class CopyAlistFileService {
         AtomicBoolean flag = new AtomicBoolean(false);
         JSONObject jsonObject = alistService.getFile(dstDir + "/" + relativePath);
         if (!(200 == jsonObject.getInteger("code")) && Utils.isVideo(relativePath)) {
-            if (jsonObject.getLong("size") > Long.parseLong(minFileSize) * 1024 * 1024) {
+            JSONObject srcJson = alistService.getFile(srcDir + "/" + relativePath);
+            if (srcJson.getLong("size") > Long.parseLong(minFileSize) * 1024 * 1024) {
+                alistService.mkdir(dstDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")));
                 JSONObject jsonResponse = alistService.copyAlist(srcDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")), dstDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")), Collections.singletonList(relativePath.substring(relativePath.lastIndexOf("/"))));
                 if (jsonResponse != null && 200 == jsonResponse.getInteger("code")) {
                     cache.add(dstDir + "/" + relativePath);
