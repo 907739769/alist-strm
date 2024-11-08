@@ -73,7 +73,7 @@ public class StrmService {
 
     public void strmOneFile(String path) {
         //判断是否处理过
-        if (cache.contains(path.substring(0, path.lastIndexOf("/")))) {
+        if (cache.contains(path)) {
             return;
         }
         String fileName = path.substring(path.lastIndexOf("/"), path.lastIndexOf(".")).replaceAll("[\\\\/:*?\"<>|]", "");
@@ -87,7 +87,7 @@ public class StrmService {
                 encodePath = URLEncoder.encode(path, "UTF-8").replace("+", "%20").replace("%2F", "/");
             }
             writer.write(url + "/d" + encodePath);
-            cache.add(path.substring(0, path.lastIndexOf("/")));
+            cache.add(path);
         } catch (Exception e) {
             log.error("", e);
         }
