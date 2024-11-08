@@ -106,7 +106,7 @@ public class CopyAlistFileService {
         });
 
         if (flag.get()) {
-            asynService.isCopyDone(dstDir + strmDir);
+            asynService.isCopyDone(dstDir, strmDir);
         }
 
 

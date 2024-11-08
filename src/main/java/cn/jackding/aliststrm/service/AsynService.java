@@ -3,6 +3,7 @@ package cn.jackding.aliststrm.service;
 import cn.jackding.aliststrm.alist.AlistService;
 import cn.jackding.aliststrm.util.Utils;
 import com.alibaba.fastjson2.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,8 @@ public class AsynService {
     @Autowired
     private StrmService strmService;
 
+    private boolean isRun;
+
     /**
      * 判断alist的复制任务是否完成 完成就执行strm任务
      *
@@ -31,15 +34,21 @@ public class AsynService {
      * @Async
      */
     @Async
-    public void isCopyDone(String dstDir) {
+    public void isCopyDone(String dstDir, String strmDir) {
+        if (isRun && StringUtils.isBlank(strmDir)) {
+            return;
+        }
+        isRun = true;
         Utils.sleep(30);
         while (true) {
             JSONObject jsonObject = alistService.copyUndone();
             if (jsonObject == null || !(200 == jsonObject.getInteger("code"))) {
+                isRun = false;
                 break;
             }
             if (CollectionUtils.isEmpty(jsonObject.getJSONArray("data"))) {
-                strmService.strmDir(dstDir);
+                isRun = false;
+                strmService.strmDir(dstDir + strmDir);
                 break;
             } else {
                 Utils.sleep(30);
