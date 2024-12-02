@@ -23,4 +23,5 @@ ENV minFileSize="100"
 ENV logLevel=""
 ENV maxIdleConnections="5"
 ENV refresh="1"
+ENV scheduledCron="0 0 6,18 * * ?"
 ENTRYPOINT ["sh","-c","java -jar $JAVA_OPTS -XX:+UseG1GC -XX:+OptimizeStringConcat -XX:+PrintGCDetails -Xloggc:/log/gc.log -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/log /aliststrm.jar"]

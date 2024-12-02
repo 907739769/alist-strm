@@ -27,7 +27,7 @@ public class ScheduledTask {
     /**
      * 每天执行两次
      */
-    @Scheduled(cron = "0 0 6,18 * * ?")
+    @Scheduled(cron = "${scheduledCron:0 0 6,18 * * ?}")
     public void syncDaily() {
         JSONObject jsonObject = alistService.copyUndone();
         if (jsonObject == null || !(200 == jsonObject.getInteger("code"))) {
