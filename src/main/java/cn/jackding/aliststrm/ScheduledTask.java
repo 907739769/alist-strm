@@ -32,9 +32,13 @@ public class ScheduledTask {
         JSONObject jsonObject = alistService.copyUndone();
         if (jsonObject == null || !(200 == jsonObject.getInteger("code"))) {
             return;
+        } else {
+            log.warn("定时任务未执行，因为alist的task/copy/undone服务不可用");
         }
         if (CollectionUtils.isEmpty(jsonObject.getJSONArray("data"))) {
             copyAlistFileService.syncFiles("");
+        } else {
+            log.warn("定时任务未执行，因为还有正在上传的文件");
         }
     }
 
