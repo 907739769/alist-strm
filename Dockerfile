@@ -15,8 +15,15 @@ ARG DEFAULT_PGID=1000
 RUN groupadd -g ${DEFAULT_PGID} appgroup && \
     useradd -u ${DEFAULT_PUID} -g appgroup -m appuser
 
-# 复制应用程序文件
-COPY ./target/application.jar /aliststrm.jar
+# 创建 /app 目录并复制 aliststrm.jar 到 /app
+RUN mkdir -p /app
+COPY ./target/application.jar /app/aliststrm.jar
+
+# 创建 /data 和 /log 目录
+RUN mkdir -p /data /log
+
+# 修改文件和目录的权限
+RUN chown -R appuser:appgroup /app /data /log
 
 # 设置卷
 VOLUME /data
@@ -43,11 +50,8 @@ ENV maxIdleConnections="5"
 ENV refresh="1"
 ENV scheduledCron="0 0 6,18 * * ?"
 
-# 修改文件和目录权限
-RUN chown -R appuser:appgroup /aliststrm.jar
-
-# 运行时切换用户，执行应用
+# 切换到非 root 用户
 USER appuser
 
-# 设置启动命令
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -XX:+UseG1GC -XX:+OptimizeStringConcat -XX:+PrintGCDetails -Xloggc:/log/gc.log -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/log /aliststrm.jar"]
+# 启动命令
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -XX:+UseG1GC -XX:+OptimizeStringConcat -XX:+PrintGCDetails -Xloggc:/log/gc.log -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/log /app/aliststrm.jar"]
