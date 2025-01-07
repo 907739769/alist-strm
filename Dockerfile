@@ -7,20 +7,11 @@ LABEL authors="JackDing"
 # 安装必要工具 (gosu)
 RUN apt-get update && apt-get install -y gosu && rm -rf /var/lib/apt/lists/*
 
-# 设置默认的 PUID 和 PGID
-ARG DEFAULT_PUID=1000
-ARG DEFAULT_PGID=1000
-
-# 创建一个新的用户和组
-RUN groupadd -g ${DEFAULT_PGID} appgroup && \
-    useradd -u ${DEFAULT_PUID} -g appgroup -m appuser
+WORKDIR /app
 
 # 复制应用程序文件
-COPY ./target/application.jar /aliststrm.jar
-
-# 设置卷
-VOLUME /data
-VOLUME /log
+COPY ./target/application.jar /app/aliststrm.jar
+COPY --chmod=755 entrypoint.sh /entrypoint.sh
 
 # 环境变量
 ENV TZ=Asia/Shanghai
@@ -42,12 +33,13 @@ ENV logLevel=""
 ENV maxIdleConnections="5"
 ENV refresh="1"
 ENV scheduledCron="0 0 6,18 * * ?"
-
-# 修改文件和目录权限
-RUN chown -R appuser:appgroup /aliststrm.jar
-
-# 运行时切换用户，执行应用
-USER appuser
+ENV PUID=0
+ENV PGID=0
+ENV UMASK=022
 
 # 设置启动命令
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -XX:+UseG1GC -XX:+OptimizeStringConcat -XX:+PrintGCDetails -Xloggc:/log/gc.log -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/log /aliststrm.jar"]
+ENTRYPOINT [ "/entrypoint.sh" ]
+
+# 设置卷
+VOLUME /data
+VOLUME /log
