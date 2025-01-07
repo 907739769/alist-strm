@@ -59,21 +59,22 @@ public class StrmService {
 
     public void strmDir(String path) {
         log.info("开始执行指定路径strm任务{}", LocalDateTime.now());
-        Utils.sendTgMsg("开始执行任务");
+        Utils.sendTgMsg("开始执行strm任务");
         try {
             getData(path, outputDir + File.separator + path.replace("/", File.separator));
         } catch (Exception e) {
-            Utils.sendTgMsg("任务执行出错");
+            Utils.sendTgMsg("strm任务执行出错");
             log.error("", e);
         } finally {
-            log.info("任务执行完成{}", LocalDateTime.now());
-            Utils.sendTgMsg("任务执行完成");
+            log.info("strm任务执行完成{}", LocalDateTime.now());
+            Utils.sendTgMsg("strm任务执行完成");
         }
     }
 
     public void strmOneFile(String path) {
         //判断是否处理过
         if (cache.contains(path)) {
+            log.info("文件已处理过，跳过处理" + path);
             return;
         }
         String fileName = path.substring(path.lastIndexOf("/"), path.lastIndexOf(".")).replaceAll("[\\\\/:*?\"<>|]", "");
@@ -130,6 +131,7 @@ public class StrmService {
                 } else {
                     //判断是否处理过
                     if (cache.contains(path + "/" + name)) {
+                        log.info("文件已处理过，跳过处理" + path);
                         return;
                     }
                     //视频文件

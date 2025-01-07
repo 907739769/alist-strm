@@ -90,6 +90,7 @@ public class CopyAlistFileService {
                 }
             } else {
                 if (cache.contains(dstDir + "/" + relativePath + "/" + name)) {
+                    log.info("文件已处理过，跳过处理" + dstDir + "/" + relativePath + "/" + name);
                     return;
                 }
                 //是视频文件才复制 并且不存在
@@ -114,6 +115,7 @@ public class CopyAlistFileService {
 
     public void syncOneFile(String srcDir, String dstDir, String relativePath) {
         if (cache.contains(dstDir + "/" + relativePath)) {
+            log.info("文件已处理过，跳过处理" + dstDir + "/" + relativePath);
             return;
         }
         AtomicBoolean flag = new AtomicBoolean(false);
