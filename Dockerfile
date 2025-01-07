@@ -44,7 +44,7 @@ ENV refresh="1"
 ENV scheduledCron="0 0 6,18 * * ?"
 
 # 修改文件和目录权限
-RUN chown -R appuser:appgroup /aliststrm.jar /data /log
+RUN chown -R appuser:appgroup /aliststrm.jar
 
 # 运行时切换用户，执行应用
 USER appuser
