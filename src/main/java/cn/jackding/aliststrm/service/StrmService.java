@@ -131,7 +131,7 @@ public class StrmService {
                 } else {
                     //判断是否处理过
                     if (cache.contains(path + "/" + name)) {
-                        log.info("文件已处理过，跳过处理" + path);
+                        log.info("文件已处理过，跳过处理" + path + "/" + name);
                         return;
                     }
                     //视频文件

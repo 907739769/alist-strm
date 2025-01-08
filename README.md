@@ -27,6 +27,8 @@ tgToken  tg机器人token，通过t.me/BotFather机器人创建bot获取token
 tgUserId tg用户id，通过t.me/userinfobot机器人获取userId
 maxIdleConnections HTTP调用线程池参数配置 默认5
 refresh参数  是否去读取网盘最新数据，1是实时读取网盘 0是读取alist缓存 默认1
+PUID  用户参数  生成strm文件的所属用户
+PGID  用户组参数 生成strm文件的所属用户组
 
 复制alist不同目录的视频 源目录删除不会删除目标目录文件 只会新增
 srcDir 源目录
@@ -57,6 +59,7 @@ scheduledCron 定时任务cron参数，默认0 0 6,18 * * ?  每天6点和18点�
 20240821 增加refresh参数  是否去读取网盘最新数据，1是实时读取网盘 0是读取alist缓存 默认1
 20241107 增加/api/v1/notifyByDir接口和replaceDir参数，按需同步目录，防止同步文件太多，耗时过长
 20241202 增加定时任务cron参数scheduledCron，默认0 0 6,18 * * ?  每天6点和18点执行同步任务 
+20250108 优化日志打印
 ```
 
 # docker CLI安装

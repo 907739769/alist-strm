@@ -6,6 +6,7 @@ import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -70,7 +71,7 @@ public class AlistService {
                 .post(RequestBody.create(MediaType.parse("application/json"), requestBodyString))
                 .build();
 
-        log.debug("开始获取{}", path);
+        log.debug("开始获取alist目录{}", path);
         for (int i = 0; i < 3; i++) {
             // 发送请求并处理响应
             try (Response response = client.newCall(request).execute()) {
@@ -83,22 +84,23 @@ public class AlistService {
 
                     // 处理响应数据
                     if (200 == jsonResponse.getInteger("code")) {
-                        log.debug("获取完成{}", path);
+                        log.debug("获取alist目录成功{}", path);
                         return jsonResponse;
                     } else {
                         log.info("Response Body: " + jsonResponse.toJSONString());
-                        log.warn("获取{}第{}次失败", path, i + 1);
+                        log.warn("获取alist目录{}第{}次失败", path, i + 1);
                         TimeUnit.SECONDS.sleep(1);
                     }
 
                 } else {
                     log.warn("Request failed with code: " + response.code());
+                    log.error("Request failed with response :" + response);
                     return jsonResponse;
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (Exception e) {
-                log.error("获取失败{}", path);
+                log.error("获取alist目录失败{}", path);
                 log.error("", e);
             }
         }
@@ -143,7 +145,7 @@ public class AlistService {
                 .post(RequestBody.create(MediaType.parse("application/json"), requestBodyString))
                 .build();
 
-        log.debug("开始获取文件{}", path);
+        log.debug("开始获取alist文件{}", path);
 
         // 发送请求并处理响应
         try (Response response = client.newCall(request).execute()) {
@@ -155,16 +157,17 @@ public class AlistService {
                 jsonResponse = JSONObject.parseObject(responseBody);
 
 
-                log.debug("获取文件完成{}", path);
+                log.debug("获取alist文件成功{}", path);
                 return jsonResponse;
 
 
             } else {
                 log.warn("Request failed with code: " + response.code());
+                log.error("Request failed with response :" + response);
                 return null;
             }
         } catch (Exception e) {
-            log.error("获取文件失败{}", path);
+            log.error("获取alist文件失败{}", path);
             log.error("", e);
         }
 
@@ -204,7 +207,7 @@ public class AlistService {
                 .post(RequestBody.create(MediaType.parse("application/json"), requestBodyString))
                 .build();
 
-        log.debug("开始复制[{}]=>[{}]", srcDir, dstDir);
+        log.debug("开始复制[{}]=>[{}]", srcDir + File.separator + names.get(0), dstDir);
         for (int i = 0; i < 3; i++) {
             // 发送请求并处理响应
             try (Response response = client.newCall(request).execute()) {
@@ -217,22 +220,23 @@ public class AlistService {
 
                     // 处理响应数据
                     if (200 == jsonResponse.getInteger("code")) {
-                        log.debug("复制[{}]=>[{}]成功", srcDir, dstDir);
+                        log.debug("复制[{}]=>[{}]成功", srcDir + File.separator + names.get(0), dstDir);
                         return jsonResponse;
                     } else {
                         log.warn("Response Body: " + jsonResponse.toJSONString());
-                        log.error("复制[{}]=>[{}]第{}次失败", srcDir, dstDir, i + 1);
+                        log.error("复制[{}]=>[{}]第{}次失败", srcDir + File.separator + names.get(0), dstDir, i + 1);
                         TimeUnit.SECONDS.sleep(1);
                     }
 
                 } else {
                     log.warn("Request failed with code: " + response.code());
+                    log.error("Request failed with response :" + response);
                     return jsonResponse;
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (Exception e) {
-                log.error("复制[{}]=>[{}]失败", srcDir, dstDir);
+                log.error("复制[{}]=>[{}]失败", srcDir + File.separator + names.get(0), dstDir);
                 log.error("", e);
             }
         }
@@ -270,7 +274,7 @@ public class AlistService {
                 .post(RequestBody.create(MediaType.parse("application/json"), requestBodyString))
                 .build();
 
-        log.debug("开始下载{}", path);
+        log.debug("开始创建alist目录{}", path);
 
         // 发送请求并处理响应
         try (Response response = client.newCall(request).execute()) {
@@ -282,16 +286,17 @@ public class AlistService {
                 jsonResponse = JSONObject.parseObject(responseBody);
 
 
-                log.debug("创建目录完成{}", path);
+                log.debug("创建alist目录完成{}", path);
                 return jsonResponse;
 
 
             } else {
                 log.warn("Request failed with code: " + response.code());
+                log.error("Request failed with response :" + response);
                 return null;
             }
         } catch (Exception e) {
-            log.warn("获取失败{}", path);
+            log.warn("创建alist目录失败{}", path);
             log.error("", e);
         }
 
@@ -339,6 +344,7 @@ public class AlistService {
                 return jsonResponse;
             } else {
                 log.warn("Request failed with code: " + response.code());
+                log.error("Request failed with response :" + response);
                 return null;
             }
         } catch (Exception e) {
