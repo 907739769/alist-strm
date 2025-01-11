@@ -27,7 +27,7 @@ public class AsynService {
     @Autowired
     private StrmService strmService;
 
-    private AtomicBoolean isRun;
+    private final AtomicBoolean isRun=new AtomicBoolean(false);
 
     /**
      * 判断alist的复制任务是否完成 完成就执行strm任务
