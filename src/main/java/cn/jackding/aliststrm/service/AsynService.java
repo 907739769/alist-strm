@@ -57,7 +57,7 @@ public class AsynService {
                 //不是上传成功状态
                 if (200 == code && state != 2) {
                     //失败状态了  就重试 状态1是运行中  状态8是等待重试
-                    if (state == 5) {
+                    if (state == 7) {
                         alistService.copyRetry(taskId);
                     }
                     allTasksCompleted = false;
@@ -88,7 +88,7 @@ public class AsynService {
             if (404 == code || state == 2) {
                 strmService.strmOneFile(path);// 生成 STRM 文件
                 break;// 任务完成，退出循环
-            } else if (state == 5) {
+            } else if (state == 7) {
                 //失败就重试
                 alistService.copyRetry(taskId);
             }
