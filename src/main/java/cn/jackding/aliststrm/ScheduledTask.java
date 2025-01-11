@@ -9,6 +9,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 /**
  * @Author Jack
  * @Date 2024/5/24 13:32
@@ -36,7 +38,7 @@ public class ScheduledTask {
             log.warn("定时任务未执行，因为alist的task/copy/undone服务不可用");
         }
         if (CollectionUtils.isEmpty(jsonObject.getJSONArray("data"))) {
-            copyAlistFileService.syncFiles("");
+            copyAlistFileService.syncFiles("", new CopyOnWriteArrayList<>());
         } else {
             log.warn("定时任务未执行，因为还有正在上传的文件");
         }

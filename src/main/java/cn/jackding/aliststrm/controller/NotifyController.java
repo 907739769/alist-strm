@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @Author Jack
@@ -31,7 +32,7 @@ public class NotifyController {
 
     @PostMapping("/notify")
     public void notifySync() {
-        copyAlistFileService.syncFiles("");
+        copyAlistFileService.syncFiles("", new CopyOnWriteArrayList<>());
     }
 
     @PostMapping("/notifyByDir")
@@ -43,10 +44,10 @@ public class NotifyController {
             if (Utils.isVideo(relativePath)) {
                 copyAlistFileService.syncOneFile(relativePath);
             } else {
-                copyAlistFileService.syncFiles(relativePath);
+                copyAlistFileService.syncFiles(relativePath, new CopyOnWriteArrayList<>());
             }
         } else {
-            copyAlistFileService.syncFiles(relativePath);
+            copyAlistFileService.syncFiles(relativePath, new CopyOnWriteArrayList<>());
         }
     }
 

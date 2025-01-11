@@ -7,7 +7,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 异步线程服务
@@ -25,7 +27,7 @@ public class AsynService {
     @Autowired
     private StrmService strmService;
 
-    private boolean isRun;
+    private AtomicBoolean isRun;
 
     /**
      * 判断alist的复制任务是否完成 完成就执行strm任务
@@ -34,42 +36,63 @@ public class AsynService {
      * @Async
      */
     @Async
-    public void isCopyDone(String dstDir, String strmDir) {
-        if (isRun && StringUtils.isBlank(strmDir)) {
+    public void isCopyDone(String dstDir, String strmDir, List<String> taskIdList) {
+        if (isRun.get() && StringUtils.isBlank(strmDir)) {
             return;
         }
-        isRun = true;
+        isRun.set(true);
         Utils.sleep(30);
         while (true) {
-            JSONObject jsonObject = alistService.copyUndone();
-            if (jsonObject == null || !(200 == jsonObject.getInteger("code"))) {
-                isRun = false;
-                break;
+            boolean allTasksCompleted = true;
+            for (String taskId : taskIdList) {
+                JSONObject jsonResponse = alistService.copyInfo(taskId);
+                if (jsonResponse == null) {
+                    continue;
+                }
+
+                // 检查任务状态
+                Integer code = jsonResponse.getInteger("code");
+                Integer state = jsonResponse.getJSONObject("data").getInteger("state");
+
+                //不是上传成功状态
+                if (200 == code && state != 2) {
+                    //也不是上传中状态 就是其他失败状态了  就重试
+                    if (state != 1) {
+                        alistService.copyRetry(taskId);
+                    }
+                    allTasksCompleted = false;
+                }
             }
-            if (CollectionUtils.isEmpty(jsonObject.getJSONArray("data"))) {
-                isRun = false;
-                strmService.strmDir(dstDir + strmDir);
-                break;
+            if (allTasksCompleted) {
+                isRun.set(false);
+                strmService.strmDir(dstDir + strmDir);// 生成 STRM 文件
+                break;// 任务完成，退出循环
             } else {
-                Utils.sleep(30);
+                Utils.sleep(30);//继续检查
             }
         }
     }
 
     @Async
-    public void isCopyDoneOneFile(String path) {
+    public void isCopyDoneOneFile(String path, String taskId) {
         Utils.sleep(30);
         while (true) {
-            JSONObject jsonObject = alistService.copyUndone();
-            if (jsonObject == null || !(200 == jsonObject.getInteger("code"))) {
+            JSONObject jsonResponse = alistService.copyInfo(taskId);
+            if (jsonResponse == null) {
                 break;
             }
-            if (CollectionUtils.isEmpty(jsonObject.getJSONArray("data"))) {
-                strmService.strmOneFile(path);
-                break;
-            } else {
-                Utils.sleep(30);
+            // 检查任务状态
+            Integer code = jsonResponse.getInteger("code");
+            Integer state = jsonResponse.getJSONObject("data").getInteger("state");
+            //判定任务是否完成了 完成了就生成strm文件
+            if (404 == code || state == 2) {
+                strmService.strmOneFile(path);// 生成 STRM 文件
+                break;// 任务完成，退出循环
+            } else if (state != 1) {
+                //也不是上传中状态 就是其他失败状态了  就重试
+                alistService.copyRetry(taskId);
             }
+            Utils.sleep(30);//继续检查
         }
     }
 

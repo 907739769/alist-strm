@@ -46,9 +46,9 @@ public class CopyAlistFileService {
     @Value("${slowMode:0}")
     private String slowMode;
 
-    private List<String> cache = new CopyOnWriteArrayList<>();
+    private final List<String> cache = new CopyOnWriteArrayList<>();
 
-    public void syncFiles(String srcDir, String dstDir, String relativePath, String strmDir) {
+    public void syncFiles(String srcDir, String dstDir, String relativePath, String strmDir, List<String> taskIdList) {
         if (StringUtils.isAnyBlank(srcDir, dstDir)) {
             return;
         }
@@ -83,10 +83,10 @@ public class CopyAlistFileService {
                 //判断目标目录是否存在这个文件夹
                 //200就是存在 存在就继续往下级目录找
                 if (200 == jsonObject.getInteger("code")) {
-                    syncFiles(srcDir, dstDir, relativePath + "/" + name);
+                    syncFiles(srcDir, dstDir, relativePath + "/" + name, taskIdList);
                 } else {
                     alistService.mkdir(dstDir + "/" + relativePath + "/" + name);
-                    syncFiles(srcDir, dstDir, relativePath + "/" + name);
+                    syncFiles(srcDir, dstDir, relativePath + "/" + name, taskIdList);
                 }
             } else {
                 if (cache.contains(dstDir + "/" + relativePath + "/" + name)) {
@@ -100,6 +100,9 @@ public class CopyAlistFileService {
                         if (jsonResponse != null && 200 == jsonResponse.getInteger("code")) {
                             cache.add(dstDir + "/" + relativePath + "/" + name);
                             flag.set(true);
+                            //获取上传文件的任务id
+                            JSONArray tasks = jsonResponse.getJSONObject("data").getJSONArray("tasks");
+                            taskIdList.add(tasks.getJSONObject(0).getString("id"));
                         }
                     }
                 }
@@ -107,7 +110,7 @@ public class CopyAlistFileService {
         });
 
         if (flag.get()) {
-            asynService.isCopyDone(dstDir, strmDir);
+            asynService.isCopyDone(dstDir, strmDir,taskIdList);
         }
 
 
@@ -119,6 +122,7 @@ public class CopyAlistFileService {
             return;
         }
         AtomicBoolean flag = new AtomicBoolean(false);
+        String taskId = null;
         JSONObject jsonObject = alistService.getFile(dstDir + "/" + relativePath);
         if (!(200 == jsonObject.getInteger("code")) && Utils.isVideo(relativePath)) {
             JSONObject srcJson = alistService.getFile(srcDir + "/" + relativePath);
@@ -128,12 +132,15 @@ public class CopyAlistFileService {
                 if (jsonResponse != null && 200 == jsonResponse.getInteger("code")) {
                     cache.add(dstDir + "/" + relativePath);
                     flag.set(true);
+                    //获取上传文件的任务id
+                    JSONArray tasks = jsonResponse.getJSONObject("data").getJSONArray("tasks");
+                    taskId = tasks.getJSONObject(0).getString("id");
                 }
             }
         }
 
         if (flag.get()) {
-            asynService.isCopyDoneOneFile(dstDir + relativePath);
+            asynService.isCopyDoneOneFile(dstDir + relativePath, taskId);
         }
 
     }
@@ -142,12 +149,12 @@ public class CopyAlistFileService {
         syncOneFile(srcDir, dstDir, relativePath);
     }
 
-    public void syncFiles(String srcDir, String dstDir, String relativePath) {
-        syncFiles(srcDir, dstDir, relativePath, "");
+    public void syncFiles(String srcDir, String dstDir, String relativePath, List<String> taskIdList) {
+        syncFiles(srcDir, dstDir, relativePath, "", taskIdList);
     }
 
-    public void syncFiles(String relativePath) {
-        syncFiles(srcDir, dstDir, relativePath, relativePath);
+    public void syncFiles(String relativePath, List<String> taskIdList) {
+        syncFiles(srcDir, dstDir, relativePath, relativePath, taskIdList);
     }
 
 

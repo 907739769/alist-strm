@@ -328,9 +328,117 @@ public class AlistService {
 
         // 构建请求
         Request request = new Request.Builder()
-                .url(url + "/api/admin/task/copy/undone")
+                .url(url + "/api/task/copy/undone")
                 .headers(headers)
                 .get()
+                .build();
+
+        // 发送请求并处理响应
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                // 获取响应体
+                String responseBody = response.body().string();
+
+                // 解析 JSON 响应
+                jsonResponse = JSONObject.parseObject(responseBody);
+                return jsonResponse;
+            } else {
+                log.warn("Request failed with code: " + response.code());
+                log.error("Request failed with response :" + response);
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("", e);
+        }
+        return null;
+    }
+
+    /**
+     * 获取复制任务的信息
+     *
+     * @return
+     */
+    public JSONObject copyInfo(String tid) {
+        if (client == null) {
+            client = new OkHttpClient.Builder()
+                    .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
+                    .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
+                    .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
+                    .connectionPool(new ConnectionPool(Integer.parseInt(maxIdleConnections), 5, TimeUnit.SECONDS))
+                    .build();
+        }
+        JSONObject jsonResponse;
+
+        // 设置请求头
+        Headers headers = new Headers.Builder()
+                .add("Accept", "application/json")
+                .add("Authorization", token)
+                .build();
+
+        // 创建请求体，传递参数
+        RequestBody formBody = new FormBody.Builder()
+                .add("tid", tid)
+                .build();
+
+        // 构建请求
+        Request request = new Request.Builder()
+                .url(url + "/api/task/copy/info" + "?tid=" + tid)
+                .headers(headers)
+                .post(formBody)
+                .build();
+
+        // 发送请求并处理响应
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                // 获取响应体
+                String responseBody = response.body().string();
+
+                // 解析 JSON 响应
+                jsonResponse = JSONObject.parseObject(responseBody);
+                return jsonResponse;
+            } else {
+                log.warn("Request failed with code: " + response.code());
+                log.error("Request failed with response :" + response);
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("", e);
+        }
+        return null;
+    }
+
+    /**
+     * 获取复制任务的信息
+     *
+     * @return
+     */
+    public JSONObject copyRetry(String tid) {
+        if (client == null) {
+            client = new OkHttpClient.Builder()
+                    .connectTimeout(90, TimeUnit.SECONDS) // 连接超时时间为90秒
+                    .readTimeout(90, TimeUnit.SECONDS)    // 读取超时时间为90秒
+                    .writeTimeout(90, TimeUnit.SECONDS)   // 写入超时时间为90秒
+                    .connectionPool(new ConnectionPool(Integer.parseInt(maxIdleConnections), 5, TimeUnit.SECONDS))
+                    .build();
+        }
+        JSONObject jsonResponse;
+
+        // 设置请求头
+        Headers headers = new Headers.Builder()
+                .add("Accept", "application/json")
+                .add("Authorization", token)
+                .build();
+
+        // 创建请求体，传递参数
+        RequestBody formBody = new FormBody.Builder()
+                .add("tid", tid)
+                .build();
+
+        // 构建请求
+        Request request = new Request.Builder()
+                .url(url + "/api/task/copy/retry" + "?tid=" + tid)
+                .headers(headers)
+                .post(formBody)
                 .build();
 
         // 发送请求并处理响应
