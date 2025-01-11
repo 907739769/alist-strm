@@ -27,7 +27,7 @@ public class AsynService {
     @Autowired
     private StrmService strmService;
 
-    private final AtomicBoolean isRun=new AtomicBoolean(false);
+    private final AtomicBoolean isRun = new AtomicBoolean(false);
 
     /**
      * 判断alist的复制任务是否完成 完成就执行strm任务
@@ -56,8 +56,8 @@ public class AsynService {
 
                 //不是上传成功状态
                 if (200 == code && state != 2) {
-                    //也不是上传中状态 就是其他失败状态了  就重试
-                    if (state != 1) {
+                    //也不是上传中状态 就是其他失败状态了  就重试 状态1是运行中  状态8是等待重试
+                    if (state != 1 && state != 8) {
                         alistService.copyRetry(taskId);
                     }
                     allTasksCompleted = false;
@@ -88,7 +88,7 @@ public class AsynService {
             if (404 == code || state == 2) {
                 strmService.strmOneFile(path);// 生成 STRM 文件
                 break;// 任务完成，退出循环
-            } else if (state != 1) {
+            } else if (state != 1 && state != 8) {
                 //也不是上传中状态 就是其他失败状态了  就重试
                 alistService.copyRetry(taskId);
             }
