@@ -52,7 +52,10 @@ public class AsynService {
 
                 // 检查任务状态
                 Integer code = jsonResponse.getInteger("code");
-                Integer state = jsonResponse.getJSONObject("data").getInteger("state");
+                Integer state = -1;
+                if (jsonResponse.getJSONObject("data") != null) {
+                    state = jsonResponse.getJSONObject("data").getInteger("state");
+                }
 
                 //不是上传成功状态
                 if (200 == code && state != 2) {
@@ -83,7 +86,10 @@ public class AsynService {
             }
             // 检查任务状态
             Integer code = jsonResponse.getInteger("code");
-            Integer state = jsonResponse.getJSONObject("data").getInteger("state");
+            Integer state = -1;
+            if (jsonResponse.getJSONObject("data") != null) {
+                state = jsonResponse.getJSONObject("data").getInteger("state");
+            }
             //判定任务是否完成了 完成了就生成strm文件
             if (404 == code || state == 2) {
                 strmService.strmOneFile(path);// 生成 STRM 文件
