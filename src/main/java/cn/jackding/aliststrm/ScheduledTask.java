@@ -33,9 +33,8 @@ public class ScheduledTask {
     public void syncDaily() {
         JSONObject jsonObject = alistService.copyUndone();
         if (jsonObject == null || !(200 == jsonObject.getInteger("code"))) {
-            return;
-        } else {
             log.warn("定时任务未执行，因为alist的task/copy/undone服务不可用");
+            return;
         }
         if (CollectionUtils.isEmpty(jsonObject.getJSONArray("data"))) {
             copyAlistFileService.syncFiles("", new CopyOnWriteArrayList<>());
