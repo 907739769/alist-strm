@@ -64,6 +64,8 @@ public class AsynService {
                         alistService.copyRetry(taskId);
                     }
                     allTasksCompleted = false;
+                } else if (404 == code || state == 2) {
+                    taskIdList.remove(taskId);
                 }
             }
             if (allTasksCompleted) {
