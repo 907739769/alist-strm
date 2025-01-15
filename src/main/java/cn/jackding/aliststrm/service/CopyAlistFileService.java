@@ -46,6 +46,9 @@ public class CopyAlistFileService {
     @Value("${slowMode:0}")
     private String slowMode;
 
+    @Value("${strmAfterSync:1}")
+    private String strmAfterSync;
+
     private final List<String> cache = new CopyOnWriteArrayList<>();
 
     public void syncFiles(String srcDir, String dstDir, String relativePath, String strmDir, List<String> taskIdList) {
@@ -109,8 +112,8 @@ public class CopyAlistFileService {
             }
         });
 
-        if (flag.get()) {
-            asynService.isCopyDone(dstDir, strmDir,taskIdList);
+        if (flag.get() && "1".equals(strmAfterSync)) {
+            asynService.isCopyDone(dstDir, strmDir, taskIdList);
         }
 
 
@@ -139,7 +142,7 @@ public class CopyAlistFileService {
             }
         }
 
-        if (flag.get()) {
+        if (flag.get() && "1".equals(strmAfterSync)) {
             asynService.isCopyDoneOneFile(dstDir + relativePath, taskId);
         }
 

@@ -35,6 +35,7 @@ srcDir 源目录
 dstDir 目标目录
 minFileSize 复制的最小文件
 replaceDir qb的下载根目录 使用/api/v1/notifyByDir接口时需要填
+strmAfterSync参数，支持上传完文件不生成strm  默认1生成strm  0不生成strm
 scheduledCron 定时任务cron参数，默认0 0 6,18 * * ?  每天6点和18点执行同步任务
 
 ```
@@ -61,6 +62,7 @@ scheduledCron 定时任务cron参数，默认0 0 6,18 * * ?  每天6点和18点�
 20241202 增加定时任务cron参数scheduledCron，默认0 0 6,18 * * ?  每天6点和18点执行同步任务 
 20250108 优化日志打印
 20250111 复制任务完成之后立即生成strm文件，不用等待所有复制任务完成，自动重试失败的复制任务
+20250115 增加strmAfterSync参数，支持上传完文件不生成strm  默认1生成strm  0不生成strm
 ```
 
 # docker CLI安装
