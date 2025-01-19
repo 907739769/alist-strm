@@ -232,8 +232,6 @@ public class AlistService {
                     log.error("Request failed with response :" + response);
                     return jsonResponse;
                 }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             } catch (Exception e) {
                 log.error("复制[{}]=>[{}]失败", srcDir + File.separator + names.get(0), dstDir);
                 log.error("", e);
