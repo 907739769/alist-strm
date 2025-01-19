@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
@@ -69,11 +68,6 @@ public class CopyAlistFileService {
         Stream<Object> stream;
         if ("1".equals(slowMode)) {
             stream = jsonArray.stream().sequential();
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (Exception e) {
-                log.error("", e);
-            }
         } else {
             stream = jsonArray.stream().parallel();
         }

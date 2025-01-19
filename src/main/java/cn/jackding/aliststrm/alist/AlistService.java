@@ -1,5 +1,6 @@
 package cn.jackding.aliststrm.alist;
 
+import cn.jackding.aliststrm.util.Utils;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
@@ -89,7 +90,7 @@ public class AlistService {
                     } else {
                         log.info("Response Body: " + jsonResponse.toJSONString());
                         log.warn("获取alist目录{}第{}次失败", path, i + 1);
-                        TimeUnit.SECONDS.sleep(1);
+                        Utils.sleep(1);
                     }
 
                 } else {
@@ -97,8 +98,6 @@ public class AlistService {
                     log.error("Request failed with response :" + response);
                     return jsonResponse;
                 }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             } catch (Exception e) {
                 log.error("获取alist目录失败{}", path);
                 log.error("", e);
@@ -225,7 +224,7 @@ public class AlistService {
                     } else {
                         log.warn("Response Body: " + jsonResponse.toJSONString());
                         log.error("复制[{}]=>[{}]第{}次失败", srcDir + File.separator + names.get(0), dstDir, i + 1);
-                        TimeUnit.SECONDS.sleep(1);
+                        Utils.sleep(1);
                     }
 
                 } else {

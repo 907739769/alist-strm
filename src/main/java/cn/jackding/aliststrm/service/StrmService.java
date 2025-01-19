@@ -17,7 +17,6 @@ import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 /**
@@ -109,11 +108,6 @@ public class StrmService {
             Stream<Object> stream;
             if ("1".equals(slowMode)) {
                 stream = jsonArray.stream().sequential();
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (Exception e) {
-                    log.error("", e);
-                }
             } else {
                 stream = jsonArray.stream().parallel();
             }
