@@ -74,6 +74,12 @@ public class CopyAlistFileService {
         stream.forEach(content -> {
             JSONObject contentJson = (JSONObject) content;
             String name = contentJson.getString("name");
+
+            //不是视频文件就不用继续往下走上传了
+            if (!contentJson.getBoolean("is_dir") && !Utils.isVideo(name)) {
+                return;
+            }
+
             JSONObject jsonObject = alistService.getFile(dstDir + "/" + relativePath + "/" + name);
             //是目录
             if (contentJson.getBoolean("is_dir")) {

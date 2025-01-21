@@ -50,7 +50,7 @@ public class StrmService {
     @Autowired
     private AlistService alistService;
 
-    private List<String> cache = new CopyOnWriteArrayList<>();
+    private final List<String> cache = new CopyOnWriteArrayList<>();
 
     public void strm() {
         strmDir(path);
