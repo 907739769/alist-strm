@@ -73,7 +73,7 @@ public class StrmService {
     public void strmOneFile(String path) {
         //判断是否处理过
         if (cache.contains(path)) {
-            log.info("文件已处理过，跳过处理" + path);
+            log.info("文件已处理过，跳过处理{}", path);
             return;
         }
         String fileName = path.substring(path.lastIndexOf("/"), path.lastIndexOf(".")).replaceAll("[\\\\/:*?\"<>|]", "");
@@ -177,7 +177,7 @@ public class StrmService {
             log.error("文件{}下载失败2", fileURL);
             throw new RuntimeException(e);
         }
-        try (InputStream inputStream = new BufferedInputStream(connection.getInputStream()); FileOutputStream outputStream = new FileOutputStream(saveDir);) {
+        try (InputStream inputStream = new BufferedInputStream(connection.getInputStream()); FileOutputStream outputStream = new FileOutputStream(saveDir)) {
 
             byte[] buffer = new byte[1024];
             int bytesRead = -1;

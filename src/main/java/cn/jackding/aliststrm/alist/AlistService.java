@@ -99,8 +99,8 @@ public class AlistService {
                     }
 
                 } else {
-                    log.warn("Request failed with code: " + response.code());
-                    log.error("Request failed with response :" + response);
+                    log.warn("Request failed with code: {}", response.code());
+                    log.error("Request failed with response :{}", response);
                     return jsonResponse;
                 }
             } catch (Exception e) {
@@ -158,8 +158,8 @@ public class AlistService {
 
 
             } else {
-                log.warn("Request failed with code: " + response.code());
-                log.error("Request failed with response :" + response);
+                log.warn("Request failed with code: {}", response.code());
+                log.error("Request failed with response :{}", response);
                 return null;
             }
         } catch (Exception e) {
@@ -217,8 +217,8 @@ public class AlistService {
                     }
 
                 } else {
-                    log.warn("Request failed with code: " + response.code());
-                    log.error("Request failed with response :" + response);
+                    log.warn("Request failed with code: {}", response.code());
+                    log.error("Request failed with response :{}", response);
                     return jsonResponse;
                 }
             } catch (Exception e) {
@@ -269,8 +269,8 @@ public class AlistService {
 
 
             } else {
-                log.warn("Request failed with code: " + response.code());
-                log.error("Request failed with response :" + response);
+                log.warn("Request failed with code: {}", response.code());
+                log.error("Request failed with response :{}", response);
                 return null;
             }
         } catch (Exception e) {
@@ -313,8 +313,8 @@ public class AlistService {
                 jsonResponse = JSONObject.parseObject(responseBody);
                 return jsonResponse;
             } else {
-                log.warn("Request failed with code: " + response.code());
-                log.error("Request failed with response :" + response);
+                log.warn("Request failed with code: {}", response.code());
+                log.error("Request failed with response :{}", response);
                 return null;
             }
         } catch (Exception e) {
@@ -359,8 +359,8 @@ public class AlistService {
                 jsonResponse = JSONObject.parseObject(responseBody);
                 return jsonResponse;
             } else {
-                log.warn("Request failed with code: " + response.code());
-                log.error("Request failed with response :" + response);
+                log.warn("Request failed with code: {}", response.code());
+                log.error("Request failed with response :{}", response);
                 return null;
             }
         } catch (Exception e) {
@@ -405,8 +405,8 @@ public class AlistService {
                 jsonResponse = JSONObject.parseObject(responseBody);
                 return jsonResponse;
             } else {
-                log.warn("Request failed with code: " + response.code());
-                log.error("Request failed with response :" + response);
+                log.warn("Request failed with code: {}", response.code());
+                log.error("Request failed with response :{}", response);
                 return null;
             }
         } catch (Exception e) {
