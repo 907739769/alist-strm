@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
@@ -48,9 +48,9 @@ public class CopyAlistFileService {
     @Value("${strmAfterSync:1}")
     private String strmAfterSync;
 
-    private final List<String> cache = new CopyOnWriteArrayList<>();
+    private final Set<String> cache = ConcurrentHashMap.newKeySet();
 
-    public void syncFiles(String srcDir, String dstDir, String relativePath, String strmDir, List<String> taskIdList) {
+    public void syncFiles(String srcDir, String dstDir, String relativePath, String strmDir, Set<String> taskIdList) {
         if (StringUtils.isAnyBlank(srcDir, dstDir)) {
             return;
         }
@@ -152,11 +152,11 @@ public class CopyAlistFileService {
         syncOneFile(srcDir, dstDir, relativePath);
     }
 
-    public void syncFiles(String srcDir, String dstDir, String relativePath, List<String> taskIdList) {
+    public void syncFiles(String srcDir, String dstDir, String relativePath, Set<String> taskIdList) {
         syncFiles(srcDir, dstDir, relativePath, "", taskIdList);
     }
 
-    public void syncFiles(String relativePath, List<String> taskIdList) {
+    public void syncFiles(String relativePath, Set<String> taskIdList) {
         syncFiles(srcDir, dstDir, relativePath, relativePath, taskIdList);
     }
 

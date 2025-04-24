@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Author Jack
@@ -37,7 +37,7 @@ public class ScheduledTask {
             return;
         }
         if (CollectionUtils.isEmpty(jsonObject.getJSONArray("data"))) {
-            copyAlistFileService.syncFiles("", new CopyOnWriteArrayList<>());
+            copyAlistFileService.syncFiles("", ConcurrentHashMap.newKeySet());
         } else {
             log.warn("定时任务未执行，因为还有正在上传的文件");
         }

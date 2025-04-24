@@ -15,8 +15,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 /**
@@ -50,7 +50,7 @@ public class StrmService {
     @Autowired
     private AlistService alistService;
 
-    private final List<String> cache = new CopyOnWriteArrayList<>();
+    private final Set<String> cache = ConcurrentHashMap.newKeySet();
 
     public void strm() {
         strmDir(path);

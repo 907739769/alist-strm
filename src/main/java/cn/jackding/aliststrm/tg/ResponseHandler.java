@@ -1,14 +1,14 @@
 package cn.jackding.aliststrm.tg;
 
 import cn.jackding.aliststrm.service.CopyAlistFileService;
-import cn.jackding.aliststrm.util.SpringContextUtil;
 import cn.jackding.aliststrm.service.StrmService;
+import cn.jackding.aliststrm.util.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.sender.MessageSender;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class ResponseHandler {
@@ -48,7 +48,7 @@ public class ResponseHandler {
             }
             sender.execute(SendMessage.builder().chatId(chatId).replyToMessageId(messageId).text("==开始执行指定路径sync任务==").build());
             CopyAlistFileService copyAlistFileService = (CopyAlistFileService) SpringContextUtil.getBean("copyAlistFileService");
-            copyAlistFileService.syncFiles(strings[0], strings[1], "", new CopyOnWriteArrayList<>());
+            copyAlistFileService.syncFiles(strings[0], strings[1], "", ConcurrentHashMap.newKeySet());
             sender.execute(SendMessage.builder().chatId(chatId).replyToMessageId(messageId).text("==执行指定路径sync任务完成==").build());
         } catch (Exception e) {
             log.error("", e);

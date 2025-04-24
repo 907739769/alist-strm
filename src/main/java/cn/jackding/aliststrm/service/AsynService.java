@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -36,7 +36,7 @@ public class AsynService {
      * @Async
      */
     @Async
-    public void isCopyDone(String dstDir, String strmDir, List<String> taskIdList) {
+    public void isCopyDone(String dstDir, String strmDir, Set<String> taskIdList) {
         if (isRun.get() && StringUtils.isBlank(strmDir)) {
             return;
         }

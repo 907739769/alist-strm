@@ -11,7 +11,7 @@ import org.telegram.abilitybots.api.objects.Ability;
 import org.telegram.abilitybots.api.objects.Flag;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.telegram.abilitybots.api.objects.Locality.USER;
 import static org.telegram.abilitybots.api.objects.Privacy.CREATOR;
@@ -96,7 +96,7 @@ public class StrmBot extends AbilityBot {
                 .action(ctx -> {
                     silent.send("==开始执行同步alist任务==", ctx.chatId());
                     CopyAlistFileService copyAlistFileService = (CopyAlistFileService) SpringContextUtil.getBean("copyAlistFileService");
-                    copyAlistFileService.syncFiles("", new CopyOnWriteArrayList<>());
+                    copyAlistFileService.syncFiles("", ConcurrentHashMap.newKeySet());
                     silent.send("==执行同步alist任务完成==", ctx.chatId());
                 })
                 .build();
@@ -130,7 +130,7 @@ public class StrmBot extends AbilityBot {
                     }
                     silent.send("==开始执行同步alist指定目录任务==", ctx.chatId());
                     CopyAlistFileService copyAlistFileService = (CopyAlistFileService) SpringContextUtil.getBean("copyAlistFileService");
-                    copyAlistFileService.syncFiles(strings[0], strings[1], "", new CopyOnWriteArrayList<>());
+                    copyAlistFileService.syncFiles(strings[0], strings[1], "", ConcurrentHashMap.newKeySet());
                     silent.send("==执行同步alist指定目录任务完成==", ctx.chatId());
                 })
                 .reply((bot, upd) -> responseHandler.replyToSyncDir(getChatId(upd), upd.getMessage().getText(), upd.getMessage().getMessageId()), Flag.REPLY,//回复
